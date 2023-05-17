@@ -16,6 +16,7 @@ public class UserController {
         notes.add("Note1");
         notes.add("Note2");
         notes.add("Note3");
+        notes.add("Note4");
         model.addAttribute("Notes",notes);
         return "user";
     }
