@@ -19,4 +19,5 @@ public class UserController {
         model.addAttribute("Notes",notes);
         return "user";
     }
+
 }
