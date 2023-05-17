@@ -1,4 +1,4 @@
-package com.projekt.projekt.Controllers;
+package com.projekt.projekt;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,6 @@ public class UserController {
         notes.add("Note1");
         notes.add("Note2");
         notes.add("Note3");
-        notes.add("Note4");
         model.addAttribute("Notes",notes);
         return "user";
     }
