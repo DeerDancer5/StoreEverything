@@ -8,13 +8,24 @@
 </head>
 <body>
 
+
 <div class="container">
   <div class="text-center">
     <h1>Zaloguj się</h1>
     <form th:action="@{/login}" method="post">
-      <div><label>Username: </label><input type="text" name="username"></div>
-      <div><label>Password: </label><input type="password" name="password"></div>
-      <div><button name="submit" type="submit" >Login</button></div>
+      <div class="row justify-content-center my-5">
+        <div class="col-lg-5">
+          <div><label for="username" class="form-label">Username: </label>
+            <input type="username" id="username" placeholder="Username"
+                   class="form-control"/></div>
+          <div><label for="password" class="form-label">Password: </label>
+            <input type="password" id="password"
+                   class="form-control"/></div>
+          <div class="form-check"><input class="form-check-input" type="checkbox" name="rememberme">Zapamiętaj </div>
+          <div><button name="submit" type="submit" class="btn btn-primary" >Login</button></div>
+        </div>
+      </div>
+
     </form>
   </div>
 </div>

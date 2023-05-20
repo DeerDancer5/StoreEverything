@@ -13,13 +13,26 @@
         <h1>Zarejestruj się</h1>
         <form th:action="@{/register}" method="get">
             <div class="row justify-content-center my-5">
-                <div>
-                    <label>Username: </label><input type="text" name="username"></div>
-                <div><label for="email" class="form-label">Email: </label>
-                    <input type="email" id="email" placeholder="twój@email.com" />
+                <div class="col-lg-5">
+
+                    <div><label for="name" class="form-label">Name: </label>
+                        <input type="name" id="name" placeholder="Name"
+                               class="form-control"/></div>
+
+                    <div><label for="username" class="form-label">Username: </label>
+                        <input type="username" id="username" placeholder="Username"
+                                   class="form-control"/></div>
+
+                    <div><label for="email" class="form-label">Email: </label>
+                        <input type="email" id="email" placeholder="twój@email.com"
+                               class="form-control"/></div>
+
+                    <div><label for="password" class="form-label">Password: </label>
+                        <input type="password" id="password"
+                               class="form-control"/></div>
+
+                    <div><button name="register" type="submit" class="btn btn-primary" >Register</button></div>
                 </div>
-                    <div><label>Password: </label><input type="password" name="password"></div>
-                <div><button name="submit" type="submit" >Login</button></div>
             </div>
         </form>
     </div>
