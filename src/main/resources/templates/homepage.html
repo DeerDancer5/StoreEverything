@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8 ">
-  <title>Login</title>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
-<body>
 
-<div class="container">
-  <div class="text-center">
-    <h1>Zaloguj się</h1>
-    <form th:action="@{/login}" method="post">
-      <div><label>Username: </label><input type="text" name="username"></div>
-      <div><label>Password: </label><input type="password" name="password"></div>
-      <div><button name="submit" type="submit" >Login</button></div>
-    </form>
+<body>
+  <div class="container">
+    <div class="text-center">
+  `   <h1>Store Everything</h1>
+      <p class="lead">Wszystko, co chciałbyś przechować w jednym miejscu!</p>
+        <h2> <a th:href="@{/login}">Zaloguj sie</a></h2>
+        <h2> <a th:href="@{/register}">Zarejestruj się</a></h2>
+    </div>
   </div>
-</div>
+
 
 
 

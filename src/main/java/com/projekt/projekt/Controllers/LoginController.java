@@ -10,8 +10,14 @@ public class LoginController {
         return "login.html";
     }
 
-    @GetMapping("/welcome")
-    public String welcome() {
-        return "welcome.html";
+    @GetMapping("/homepage")
+    public String Homepage() {
+        return "homepage.html";
     }
+
+    @GetMapping("/register")
+    public String Register() {
+        return "register.html";
+    }
+
 }
