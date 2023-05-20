@@ -3,6 +3,7 @@ package com.projekt.projekt.Notes;
 import java.time.LocalDateTime;
 
 public class Note {
+
     private String title;
     private String category;
     private String content;
@@ -30,4 +31,10 @@ public class Note {
     public LocalDateTime getDate() {
         return date;
     }
+    public String dateToString(){
+        String tmp = date.getYear()+"-"+date.getMonthValue()+"-"+
+        date.getDayOfMonth();
+        return tmp;
+    }
+
 }

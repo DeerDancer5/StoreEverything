@@ -26,7 +26,7 @@
     <tr th:each="note: ${Notes}">
     <td th:text="${note.getTitle()}"/>
     <td th:text="${note.getCategory()}"/>
-    <td th:text="${note.getDate().getYear()}"/>
+    <td th:text="${note.dateToString()}"/>
     </tr>
     </tbody>
 </table>
