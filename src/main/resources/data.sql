@@ -1,0 +1,5 @@
+INSERT INTO note (title,category,content,adddate) VALUES ('note1','motoryzacja','Saaby są drogie w utrzymaniu','2023-05-20')
+INSERT INTO note (title,category,content,adddate) VALUES ('note3','muzyka','Blur wydaje nowy album','2018-06-20')
+INSERT INTO note (title,category,content,adddate) VALUES ('note2','www','http://www.oasis-recordinginfo.co.uk','2023-05-19')
+INSERT INTO note (title,category,content,adddate) VALUES ('note4','motoryzacja','Saaby są drogie w utrzymaniu','2023-05-18')
+INSERT INTO note (title,category,content,adddate) VALUES ('note5','motoryzacja','Saaby są drogie w utrzymaniu','2023-05-22')
