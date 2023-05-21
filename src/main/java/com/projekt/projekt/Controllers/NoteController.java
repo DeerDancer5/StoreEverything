@@ -20,11 +20,16 @@ public class NoteController {
     @GetMapping
     private String getNotes(
             @RequestParam Optional<Integer> page,
-            @RequestParam Optional<String> sortBy, Model model) {
+            @RequestParam Optional<Integer> pageSize,
+            @RequestParam Optional<String> sortBy,
+            Model model) {
 
-        Page <Note> notes = service.getAllNotes(page, sortBy);
+        Page <Note> notes = service.getNotesPage(page.orElse(0),pageSize.orElse(5),sortBy.orElse("id"));
         model.addAttribute("Name","UserName");
         model.addAttribute("NotesList",notes);
+        model.addAttribute("page", page);
+        model.addAttribute("pageSize",pageSize.orElse(5));
+        model.addAttribute("sortBy",sortBy.orElse("id"));
 
         return "notes";
     }
