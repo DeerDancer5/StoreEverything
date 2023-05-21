@@ -7,7 +7,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.projekt.projekt.Notes.Note;
 
-import java.util.Optional;
 
 @Service
 public class NoteService {
@@ -18,14 +17,15 @@ public class NoteService {
         this.noteRepository = noteRepository;
     }
 
-    public Page<Note> getAllNotes(
-            Optional<Integer> page,
-            Optional<String> sortBy
+    public Page<Note> getNotesPage(
+           int page,
+           int pageSize,
+           String sortBy
 
 
     ) {
         return noteRepository.findAll(
-                PageRequest.of(page.orElse(0),5, Sort.Direction.ASC,sortBy.orElse("id"))
+                PageRequest.of(page,pageSize, Sort.Direction.ASC,sortBy)
         );
     }
 }
