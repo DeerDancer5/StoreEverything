@@ -25,9 +25,11 @@ public class NoteController {
             Model model) {
 
         Page <Note> notes = service.getNotesPage(page.orElse(0),pageSize.orElse(5),sortBy.orElse("id"));
+        int numberOfPages= (int) notes.getTotalPages()-1;
+        model.addAttribute("NumberOfPages",numberOfPages);
         model.addAttribute("Name","UserName");
         model.addAttribute("NotesList",notes);
-        model.addAttribute("page", page);
+        model.addAttribute("page", page.orElse(0));
         model.addAttribute("pageSize",pageSize.orElse(5));
         model.addAttribute("sortBy",sortBy.orElse("id"));
 

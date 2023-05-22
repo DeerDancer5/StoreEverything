@@ -10,7 +10,7 @@
     <h1 th:text="${Name}"/>
 </head>
 <body>
-
+<p th:text="${Name}"/>
 <table class="table table-striped ">
     <thead class="table-dark">
     <tr>
@@ -33,6 +33,7 @@
 </table>
 
 
-<a th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},page=1)}">Strona nr 1</a>
+<a th:if="${page<NumberOfPages}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},page=${page}+1)}">Następna strona</a>
+<p><a th:if="${page>0}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},page=${page}-1)}">Poprzednia strona</a></p>
 </body>
 </html>
