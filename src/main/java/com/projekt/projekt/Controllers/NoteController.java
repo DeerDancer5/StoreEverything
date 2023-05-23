@@ -32,14 +32,16 @@ public class NoteController {
         model.addAttribute("page", page.orElse(0));
         model.addAttribute("pageSize",pageSize.orElse(5));
         model.addAttribute("sortBy",sortBy.orElse("id"));
-        model.addAttribute("Selected","");
+        model.addAttribute("SelectedSort","");
+        model.addAttribute("SelectedPageNum","");
 
         return "notes";
     }
     @PostMapping()
-    public String reload(@ModelAttribute("Selected") String sortBy,
-                         @ModelAttribute("pageSize") String pageSize){
+    public String reload(@ModelAttribute("SelectedSort") String sortBy,
+                         @ModelAttribute("SelectedPageNum") String pageSize){
         String redirect = "redirect:/notes?sortBy="+sortBy+"&pageSize="+pageSize+"&page=0";
+        System.out.println(sortBy);
         return redirect;
     }
 }
