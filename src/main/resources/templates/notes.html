@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,14 +13,15 @@
 <body>
 
 
-    <form method="post">
+    <form th:action="@{/notes}" th:object="${noteRequest}" method="post">
         <p>Sort by:
-        <select th:name="SelectedSort">
+        <select th:field="*{sortBy}">
+        <option th:value="id" th:text="--" ></option>
         <option th:value="adddate" th:text="Date" ></option>
         <option th:value="title" th:text="Title" ></option>
         <option th:value="category" th:text="Category" ></option>
         </select>
-        <input type="hidden"  name="SelectedPageNum" th:value="${pageSize}">
+        <input type="hidden"  th:value="${pageSize}" th:name="pageSize">
         <input type="submit"  value="Sort"/>
         </p>
     </form>
@@ -53,18 +54,19 @@
 
     </tbody>
 </table>
-    <form method="post">
-        <p>Items on page:
-            <select th:name="SelectedPageNum">
+
+    <form th:action="@{/notes}" th:object="${noteRequest}" method="post">
+        <p>Items per page:
+            <select th:field="*{pageSize}">
+                <option th:value="${NumberOfElements}" th:text="--"></option>
                 <option th:value=2 th:text=2></option>
                 <option th:value=4 th:text=4></option>
                 <option th:value=6 th:text=6></option>
             </select>
-            <input type="hidden"  name="SelectedSort" th:value="${sortBy}">
+            <input type="hidden"  th:value="${sortBy}" th:name="sortBy">
             <input type="submit"  value="Change"/>
         </p>
     </form>
-
 <a th:if="${page<NumberOfPages}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},page=${page}+1)}">Następna strona</a>
 <p><a th:if="${page>0}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},page=${page}-1)}">Poprzednia strona</a></p>
 </body>
