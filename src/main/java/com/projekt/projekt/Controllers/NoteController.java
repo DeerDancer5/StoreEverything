@@ -1,13 +1,13 @@
 package com.projekt.projekt.Controllers;
 import com.projekt.projekt.Notes.Note;
 import com.projekt.projekt.Services.NoteService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Optional;
 
 @Controller
@@ -32,9 +32,14 @@ public class NoteController {
         model.addAttribute("page", page.orElse(0));
         model.addAttribute("pageSize",pageSize.orElse(5));
         model.addAttribute("sortBy",sortBy.orElse("id"));
+        model.addAttribute("Selected","");
 
         return "notes";
     }
-
-
+    @PostMapping()
+    public String reload(@ModelAttribute("Selected") String sortBy,
+                         @ModelAttribute("pageSize") String pageSize){
+        String redirect = "redirect:/notes?sortBy="+sortBy+"&pageSize="+pageSize+"&page=0";
+        return redirect;
+    }
 }
