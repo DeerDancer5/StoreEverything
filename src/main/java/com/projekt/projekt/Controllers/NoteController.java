@@ -44,4 +44,5 @@ public class NoteController {
         String redirect = "redirect:/notes?sortBy="+noteRequest.getSortBy()+"&pageSize="+noteRequest.getPageSize()+"&page=0";
         return redirect;
     }
+
 }

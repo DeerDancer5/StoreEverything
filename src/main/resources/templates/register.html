@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
@@ -10,28 +10,26 @@
 
 <div class="container">
     <div class="text-center">
-        <h1>Zarejestruj się</h1>
-        <form th:action="@{/register}" method="get">
+        <form action="#" th:action="@{/register}" th:object="${person}" method="post">
             <div class="row justify-content-center my-5">
                 <div class="col-lg-5">
-
-                    <div><label for="name" class="form-label">Name: </label>
-                        <input type="name" id="name" placeholder="Name"
-                               class="form-control"/></div>
-
-                    <div><label for="username" class="form-label">Username: </label>
-                        <input type="username" id="username" placeholder="Username"
-                                   class="form-control"/></div>
-
-                    <div><label for="email" class="form-label">Email: </label>
-                        <input type="email" id="email" placeholder="twój@email.com"
-                               class="form-control"/></div>
-
-                    <div><label for="password" class="form-label">Password: </label>
-                        <input type="password" id="password"
-                               class="form-control"/></div>
-
-                    <div><button name="register" type="submit" class="btn btn-primary" >Register</button></div>
+                    <h1>Sign up</h1>
+                        <div>
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" th:field="*{name}" required="required" />
+                            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
+                        </div>
+                        <div>
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" th:field="*{email}" required="required" />
+                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
+                        </div>
+                        <div>
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" th:field="*{password}" required="required" />
+                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
+                        </div>
+                    <div><button type="submit" class="btn btn-primary" >Register</button></div>
                 </div>
             </div>
         </form>
