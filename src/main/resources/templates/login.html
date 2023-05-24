@@ -8,15 +8,13 @@
 </head>
 <body>
 
-
+<div th:insert="navbar :: navbar" >  </div>
 <div class="container">
-  <div class="text-center">
+  <div th:fragment="footer" th:align="center">
     <form th:action="@{/login}" th:object="${person}" method="post">
-      <div class="row justify-content-center my-5">
-        <div class="col-lg-5">
-          <h1>Zaloguj się</h1>
+          <h1>Log in</h1>
           <div>
-            <label for="name">Name:</label>
+            <label for="name">Username:</label>
             <input type="text" id="name" name="name" th:field="*{name}" required="required" />
             <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
           </div>
@@ -27,13 +25,9 @@
           </div>
           <div class="form-check"><input class="form-check-input" type="checkbox" name="rememberme">Zapamiętaj mnie</div>
           <div><button name="submit" type="submit" class="btn btn-primary" >Login</button></div>
-        </div>
-      </div>
-
     </form>
   </div>
 </div>
-
 
 
 

@@ -11,7 +11,11 @@ public class LoginController {
         return "homepage.html";
     }
 
-
+    @GetMapping("/navbar")
+    public String Navbar()
+    {
+        return "navbar.html";
+    }
 
 
 }
