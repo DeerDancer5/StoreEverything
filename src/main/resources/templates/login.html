@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div th:insert="navbar :: navbar" >  </div>
+<div th:insert="~{navbar :: navbar}">  </div>
 <div class="container">
   <div th:fragment="footer" th:align="center">
     <form th:action="@{/login}" th:object="${person}" method="post">

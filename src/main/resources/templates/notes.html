@@ -1,59 +1,82 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>User</title>
+    <link rel="stylesheet" href="/css/style.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<div th:insert="navbar :: navbar">  </div>
-<h1 th:text="${Name}"/>
+<div th:insert="~{navbar :: navbar}">  </div>
+
+<div class="container">
+        <div th:align="center">
+           <h1 th:text="${Name}"/>
+        </div>
+
+    <div class="wrapper">
+        <form th:action="@{/notes}" th:object="${noteRequest}" method="post">
+
+            <div class="container">
+                <div th:align="left">
+                    <div>Sort by:
+
+                        <select th:field="*{sortBy}">
+                            <option th:value="id" th:text="--" ></option>
+                            <option th:value="adddate" th:text="Date" ></option>
+                            <option th:value="title" th:text="Title" ></option>
+                            <option th:value="category" th:text="Category" ></option>
+                        </select>
+                        <input type="hidden"  th:value="${pageSize}" th:name="pageSize"/>
+                        <input type="submit"  value="Sort"/>
+                    </div>
+                </div>
+            </div>
+        </form>
 
 
-    <form th:action="@{/notes}" th:object="${noteRequest}" method="post">
-        <p>Sort by:
-        <select th:field="*{sortBy}">
-        <option th:value="id" th:text="--" ></option>
-        <option th:value="adddate" th:text="Date" ></option>
-        <option th:value="title" th:text="Title" ></option>
-        <option th:value="category" th:text="Category" ></option>
-        </select>
-        <input type="hidden"  th:value="${pageSize}" th:name="pageSize">
-        <input type="submit"  value="Sort"/>
-        </p>
-    </form>
+        <div class="container">
 
-    <span>
-        <p>Page
-        <span class="Strona" th:text="${page+1}"></span>
-        of
-        <span class="Ilosc" th:text="${NumberOfPages+1}"></span>
-    </span></p>
-
-<table class="table table-striped ">
-    <thead class="table-dark">
-    <tr>
-
-        <th scope="col">Name</th>
-        <th scope="col">Category</th>
-        <th scope="col">Date</th>
+            <div th:align="right">
+                <span>
+                    <div>Page
+                    <span class="Strona" th:text="${page+1}"></span>
+                    of
+                    <span class="Ilosc" th:text="${NumberOfPages+1}"></span>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
 
 
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="note: ${NotesList}">
-    <td th:text="${note.getTitle()}"/>
-    <td th:text="${note.getCategory()}"/>
-    <td th:text="${note.dateToString()}"/>
 
-    </tr>
 
-    </tbody>
-</table>
+    <table class="table table-striped ">
+        <thead class="table-dark">
+        <tr>
+
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Date</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="note: ${NotesList}">
+        <td th:text="${note.getTitle()}"/>
+        <td th:text="${note.getCategory()}"/>
+        <td th:text="${note.dateToString()}"/>
+
+        </tr>
+
+        </tbody>
+
+        </table>
 
     <form th:action="@{/notes}" th:object="${noteRequest}" method="post">
         <p>Items per page:
@@ -69,5 +92,6 @@
     </form>
 <a th:if="${page<NumberOfPages}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},page=${page}+1)}">Następna strona</a>
 <p><a th:if="${page>0}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},page=${page}-1)}">Poprzednia strona</a></p>
+</div>
 </body>
 </html>
