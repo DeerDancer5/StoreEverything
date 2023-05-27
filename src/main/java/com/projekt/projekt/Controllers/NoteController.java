@@ -1,6 +1,7 @@
 package com.projekt.projekt.Controllers;
 import com.projekt.projekt.Notes.Note;
 import com.projekt.projekt.Notes.NoteRequest;
+import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import java.util.Optional;
 public class NoteController {
 
     @Autowired
-    private NoteService service;
+    private NoteService noteService;
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     private String getNotes(
@@ -25,9 +28,10 @@ public class NoteController {
             @RequestParam Optional<String> sortBy,
             Model model) {
 
-        Page <Note> notes = service.getNotesPage(page.orElse(0),pageSize.orElse(5),sortBy.orElse("id"));
+        Page <Note> notes = noteService.getNotesPage(page.orElse(0),pageSize.orElse(5),sortBy.orElse("id"));
         int numberOfPages= (int) notes.getTotalPages()-1;
         int numberOfElements = (int) notes.getTotalElements();
+        model.addAttribute("CategoryService",categoryService);
         model.addAttribute("NumberOfPages",numberOfPages);
         model.addAttribute("NumberOfElements",numberOfElements);
         model.addAttribute("Name","UserName");
@@ -44,5 +48,6 @@ public class NoteController {
         String redirect = "redirect:/notes?sortBy="+noteRequest.getSortBy()+"&pageSize="+noteRequest.getPageSize()+"&page=0";
         return redirect;
     }
+
 
 }

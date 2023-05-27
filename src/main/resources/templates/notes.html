@@ -69,7 +69,7 @@
         <tbody>
         <tr th:each="note: ${NotesList}">
         <td th:text="${note.getTitle()}"/>
-        <td th:text="${note.getCategory()}"/>
+        <td th:text="${note.getCategoryName()}"/>
         <td th:text="${note.dateToString()}"/>
 
         </tr>
