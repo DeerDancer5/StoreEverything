@@ -30,8 +30,12 @@ public class Note {
         return content;
     }
     public String dateToString(){
-        String tmp=adddate.getYear()+"-"+adddate.getMonthValue()+
-                "-"+adddate.getDayOfMonth();
+        String tmp=adddate.getYear()+"-";
+        String month=Integer.toString(adddate.getMonthValue());
+        if(adddate.getMonthValue()<10){
+            month = "0"+month;
+        }
+        tmp = tmp + month+"-"+adddate.getDayOfMonth();
         return tmp;
     }
 
