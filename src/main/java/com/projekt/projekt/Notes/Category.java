@@ -1,17 +1,19 @@
 package com.projekt.projekt.Notes;
 
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="category")
-public class Category {
+public class Category implements Comparable<Category> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
     @OneToMany(
             mappedBy = "category",
             cascade = CascadeType.ALL,
@@ -46,5 +48,10 @@ public class Category {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public int compareTo(@NotNull Category o) {
+        return Integer.compare(o.getNotes().size(),getNotes().size());
     }
 }

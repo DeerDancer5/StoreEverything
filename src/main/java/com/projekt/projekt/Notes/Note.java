@@ -16,6 +16,8 @@ public class Note {
     private String categoryName;
     private String content;
     private LocalDateTime adddate;
+
+
     @ManyToOne
     @JoinColumn(name="category_id")
     private Category category;
