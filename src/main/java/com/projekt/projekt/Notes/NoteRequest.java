@@ -4,6 +4,15 @@ public class NoteRequest {
     private String sortBy;
     private String pageSize;
     private String page;
+    private String sortDir;
+
+    public String getSortDir() {
+        return sortDir;
+    }
+
+    public void setSortDir(String sortDir) {
+        this.sortDir = sortDir;
+    }
 
     public String getSortBy() {
         return sortBy;

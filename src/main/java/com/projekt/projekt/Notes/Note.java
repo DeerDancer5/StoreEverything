@@ -1,11 +1,8 @@
 package com.projekt.projekt.Notes;
-
-
-import com.projekt.projekt.Services.CategoryService;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.time.LocalDateTime;
+
+
 @Entity
 @Table(name="note")
 public class Note {
@@ -15,18 +12,19 @@ public class Note {
     private String title;
     private String categoryName;
     private String content;
-    private LocalDateTime adddate;
+    private LocalDateTime date;
 
 
     @ManyToOne
     @JoinColumn(name="category_id")
     private Category category;
 
-    public Note(String title, String content, LocalDateTime adddate, Category category) {
+    public Note(String title, String content, LocalDateTime date, Category category) {
         this.title = title;
         this.content = content;
-        this.adddate = adddate;
+        this.date = date;
         this.category = category;
+
     }
 
     public Note() {
@@ -44,12 +42,12 @@ public class Note {
     }
 
     public String dateToString() {
-        String tmp = adddate.getYear() + "-";
-        String month = Integer.toString(adddate.getMonthValue());
-        if (adddate.getMonthValue() < 10) {
+        String tmp = date.getYear() + "-";
+        String month = Integer.toString(date.getMonthValue());
+        if (date.getMonthValue() < 10) {
             month = "0" + month;
         }
-        tmp = tmp + month + "-" + adddate.getDayOfMonth();
+        tmp = tmp + month + "-" + date.getDayOfMonth();
         return tmp;
     }
 
