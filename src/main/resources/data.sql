@@ -1,4 +1,4 @@
-INSERT INTO category(name) VALUES ('silka')
+INSERT INTO category(name) VALUES ('siłka')
 INSERT INTO category(name) VALUES ('motoryzacja')
 INSERT INTO category(name) VALUES ('muzyka')
 INSERT INTO category(name) VALUES ('www')

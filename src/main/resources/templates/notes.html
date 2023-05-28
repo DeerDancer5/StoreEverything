@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User</title>
+    <title>Notes</title>
     <link rel="stylesheet" href="/css/style.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -93,7 +93,7 @@
         <p>Items per page:
 
             <select name="pageSize">
-                <option th:value="${NumberOfElements}" th:text="all"></option>
+                <option th:value="${NumberOfElements}" th:text="--"></option>
                 <option th:each="choice : ${SizeOptions}"
                         th:value="${choice}"
                         th:selected="(${choice} == ${pageSize})"
@@ -109,6 +109,12 @@
     Następna strona</a>
 <p><a th:if="${page>0}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},sortDir=${sortDir},page=${page}-1)}">
     Poprzednia strona</a></p>
+    <div th:align="left">
+    <li th:each="category : ${CategoryList}">
+        <label th:for="${category}" th:text="${category.getName()}"></label>
+        <input type="checkbox" />
+    </li>
+</div>
 </div>
 </body>
 </html>

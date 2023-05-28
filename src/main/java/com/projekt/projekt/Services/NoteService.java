@@ -1,5 +1,4 @@
 package com.projekt.projekt.Services;
-
 import com.projekt.projekt.Notes.Category;
 import com.projekt.projekt.Repositories.CategoryRepository;
 import com.projekt.projekt.Repositories.NoteRepository;
@@ -8,48 +7,38 @@ import org.springframework.data.domain.*;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import com.projekt.projekt.Notes.Note;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
+
 @Service
 @RequiredArgsConstructor
 public class NoteService {
-    final
-    NoteRepository noteRepository;
+     final NoteRepository noteRepository;
      final CategoryRepository categoryRepository;
-
 
 
     public Page<Note> getNotesPage(
            int page,
            int pageSize,
            String sortBy,
-           String sortDir
-
-
+           String sortDir,
+           String[] category
     ) {
         Direction d = Direction.ASC;
         if(sortDir.equals("desc")) {
             d = Direction.DESC;
         }
-        Page<Note> notesPage = noteRepository.findAll(
-        PageRequest.of(page, pageSize, d,sortBy));
-
-        if(sortBy.equals("category")){
-            notesPage = sortByCategoryPopularity(notesPage,sortDir);
-        }
+        Page <Note> notesPage = getResults(category,page,pageSize,d,sortBy,sortDir);
         updateCategoryNames(notesPage);
-
-
         return notesPage;
 
     }
     private Page <Note> sortByCategoryPopularity(Page <Note> notesPage, String sortDir) {
         List<Category> categoryList = categoryRepository.findAll();
-        List <Note> tmp = noteRepository.findAll();
+        List <Note> tmp = notesPage.getContent();
         Collections.sort(categoryList);
         if (sortDir.equals("desc")) {
             Collections.reverse(categoryList);
@@ -88,6 +77,24 @@ public class NoteService {
         sizes.add(2);
         sizes.add(4);
         sizes.add(6);
+        sizes.add(10);
         return sizes;
     }
+    private Page <Note> getResults(String[]category,int page,int pageSize,Direction d,String sortBy,String sortDir){
+        Page<Note> notesPage;
+        if(category.length>0) {
+            Pageable pageable = PageRequest.of(page,pageSize,d,sortBy);
+            notesPage=noteRepository.filterNotesByCategory(category,pageable);
+        }
+        else {
+            notesPage = noteRepository.findAll(
+                    PageRequest.of(page, pageSize, d,sortBy));
+        }
+        if(sortBy.equals("category")){
+            notesPage = sortByCategoryPopularity(notesPage,sortDir);
+
+        }
+        return notesPage;
+    }
+
 }
