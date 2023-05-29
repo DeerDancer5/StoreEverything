@@ -25,7 +25,7 @@ public class NoteService {
            int pageSize,
            String sortBy,
            String sortDir,
-           String[] category
+           String category
     ) {
         Direction d = Direction.ASC;
         if(sortDir.equals("desc")) {
@@ -38,7 +38,7 @@ public class NoteService {
     }
     private Page <Note> sortByCategoryPopularity(Page <Note> notesPage, String sortDir) {
         List<Category> categoryList = categoryRepository.findAll();
-        List <Note> tmp = notesPage.getContent();
+        List <Note> tmp = noteRepository.findAll();
         Collections.sort(categoryList);
         if (sortDir.equals("desc")) {
             Collections.reverse(categoryList);
@@ -80,20 +80,23 @@ public class NoteService {
         sizes.add(10);
         return sizes;
     }
-    private Page <Note> getResults(String[]category,int page,int pageSize,Direction d,String sortBy,String sortDir){
+    private Page <Note> getResults(String category,int page,int pageSize,Direction d,String sortBy,String sortDir){
         Page<Note> notesPage;
-        if(category.length>0) {
-            Pageable pageable = PageRequest.of(page,pageSize,d,sortBy);
-            notesPage=noteRepository.filterNotesByCategory(category,pageable);
+        if(category.length()>0) {
+            Pageable pageable = PageRequest.of(page,pageSize,d,sortBy.toLowerCase());
+            String [] split = category.split(",");
+            notesPage=noteRepository.filterNotesByCategory(split,pageable);
         }
         else {
             notesPage = noteRepository.findAll(
                     PageRequest.of(page, pageSize, d,sortBy));
+
         }
         if(sortBy.equals("category")){
             notesPage = sortByCategoryPopularity(notesPage,sortDir);
 
         }
+
         return notesPage;
     }
 

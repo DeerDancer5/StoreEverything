@@ -1,10 +1,12 @@
 package com.projekt.projekt.Notes;
-
 public class NoteRequest {
     private String sortBy;
     private String pageSize;
     private String page;
     private String sortDir;
+    private String[] selectedCategory;
+
+
 
     public String getSortDir() {
         return sortDir;
@@ -36,5 +38,13 @@ public class NoteRequest {
 
     public void setPage(String page) {
         this.page = page;
+    }
+
+    public String [] getSelectedCategory() {
+        return selectedCategory;
+    }
+
+    public void setSelectedCategory(String [] selectedCategory) {
+        this.selectedCategory = selectedCategory;
     }
 }

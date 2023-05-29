@@ -29,10 +29,22 @@
                 <div class="row my-2">
                     Filtry:
                 </div>
+                <form th:action="@{/notes}" th:object="${noteRequest}" th:field="selectedCategory" method="post">
                 <li th:each="category : ${CategoryList}">
-                    <label th:for="${category}" th:text="${category.getName()}"></label>
-                    <input type="checkbox" />
+                    <label th:for="${category}" th:text="${category.getName()}" ></label>
+                    <input type="checkbox" th:field="*{selectedCategory}" th:value="${category.getName()}"/>
+
                 </li>
+                    <input type="hidden"  th:value="${pageSize}" th:name="pageSize"/>
+                    <input type="hidden"  th:value="${page}" th:name="page"/>
+                    <input type="hidden"  th:value="${sortBy}" th:name="sortBy"/>
+                    <input type="hidden"  th:value="${sortDir}" th:name="sortDir">
+
+                    <div class="field">
+                        <button class="ui button" type="submit">Filter</button>
+                    </div>
+                </form>
+
                 <hr>
             </div>
         </div>
@@ -60,7 +72,10 @@
                                 <input class="form-check-input" type="radio" th:name="sortDir" th:checked="${sortDir.contains('desc')}" id="option2" value="desc">
                                 <label class="form-check-label" for="option2">Descending</label>
                             </div>
+                            <input type="hidden"  th:value="${page}" th:name="page"/>
                             <input type="hidden"  th:value="${pageSize}" th:name="pageSize"/>
+                            <input type="hidden"  th:value="${selectedCategory}" th:name="selectedCategory"/>
+
                             <input type="submit"  value="Sort"/>
                         </div>
                     </div>
@@ -113,19 +128,23 @@
                         </select>
                         <input type="hidden"  th:value="${sortBy}" th:name="sortBy">
                         <input type="hidden"  th:value="${sortDir}" th:name="sortDir">
+                        <input type="hidden"  th:value="${page}" th:name="page">
+
+                        <input type="hidden"  th:value="${selectedCategory}" th:name="selectedCategory"/>
                         <input type="submit"  value="Change"/>
                     </p>
                 </form>
+
             </div>
         </div>
         <div class="row">
             <div class="col" th:aligm="left">
-                <a th:if="${page>0}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},sortDir=${sortDir},page=${page}-1)}">
-                    Poprzednia strona</a>
+                <a th:if="${page>0}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},sortDir=${sortDir},page=${page}-1,selectedCategory=${selectedCategory})}">
+                    Previous page</a>
             </div>
             <div class="col" th:align="right">
-                <a th:if="${page<NumberOfPages}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},sortDir=${sortDir},page=${page}+1)}">
-                    Następna strona
+                <a th:if="${page<NumberOfPages}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},sortDir=${sortDir},page=${page}+1,selectedCategory=${selectedCategory})}">
+                    Next page
                 </a>
             </div>
 
