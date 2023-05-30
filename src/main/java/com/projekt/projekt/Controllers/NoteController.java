@@ -46,7 +46,7 @@ public class NoteController {
         model.addAttribute("SizeOptions",sizeOptions);
         model.addAttribute("NumberOfPages",numberOfPages);
         model.addAttribute("NumberOfElements",numberOfElements);
-        model.addAttribute("Name","UserName");
+        model.addAttribute("Name","Your notes");
         model.addAttribute("NotesList",notes);
         model.addAttribute("page", page.orElse(0));
         model.addAttribute("pageSize",pageSize.orElse(10));
@@ -107,7 +107,7 @@ public class NoteController {
         mav.addObject("SizeOptions",sizeOptions);
         mav.addObject("NumberOfPages",numberOfPages);
         mav.addObject("NumberOfElements",numberOfElements);
-        mav.addObject("Name","UserName");
+        mav.addObject("Name","Your notes");
         mav.addObject("NotesList",notes);
 
         return mav;

@@ -13,7 +13,7 @@
 <div class="containerEdit">
     <div class="text-center my-3">
         <div class="row">
-            <h1 class="my-3">Edytuj notatkę</h1>
+            <h1 class="my-3">Edit note</h1>
         </div>
         <form th:action="@{|/notes/edit|}" th:object="${note}" method="post" id="saveForm">
             <div class="mt-3">Category:</div>
@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col">
                     <div class="mt-3">
-                        Note content:
+                        Note:
                         <div class="EditContent">
                             <textarea rows="8" cols="40" th:type="textarea"  name="content" th:inline="text">[[${content}]]</textarea>
                         </div>
