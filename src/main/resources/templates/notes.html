@@ -27,7 +27,7 @@
         <div class="col-md-3"><hr>
             <div th:align="left">
                 <div class="row my-2">
-                    Filtry:
+                    Category:
                 </div>
                 <form th:action="@{/notes}" th:object="${noteRequest}" th:field="selectedCategory" method="post">
                 <li th:each="category : ${CategoryList}">

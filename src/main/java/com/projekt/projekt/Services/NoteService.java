@@ -31,14 +31,14 @@ public class NoteService {
         if(sortDir.equals("desc")) {
             d = Direction.DESC;
         }
-        Page <Note> notesPage = getResults(category,page,pageSize,d,sortBy,sortDir);
+        Page <Note> notesPage = getResults(category,page,pageSize,d,sortBy.toLowerCase(),sortDir);
         updateCategoryNames(notesPage);
         return notesPage;
 
     }
     private Page <Note> sortByCategoryPopularity(Page <Note> notesPage, String sortDir) {
         List<Category> categoryList = categoryRepository.findAll();
-        List <Note> tmp = noteRepository.findAll();
+        List <Note> tmp = notesPage.getContent();
         Collections.sort(categoryList);
         if (sortDir.equals("desc")) {
             Collections.reverse(categoryList);
@@ -83,7 +83,7 @@ public class NoteService {
     private Page <Note> getResults(String category,int page,int pageSize,Direction d,String sortBy,String sortDir){
         Page<Note> notesPage;
         if(category.length()>0) {
-            Pageable pageable = PageRequest.of(page,pageSize,d,sortBy.toLowerCase());
+            Pageable pageable = PageRequest.of(page,pageSize,d,sortBy);
             String [] split = category.split(",");
             notesPage=noteRepository.filterNotesByCategory(split,pageable);
         }
