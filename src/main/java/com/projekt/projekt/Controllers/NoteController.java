@@ -2,6 +2,7 @@ package com.projekt.projekt.Controllers;
 import com.projekt.projekt.Notes.Category;
 import com.projekt.projekt.Notes.Note;
 import com.projekt.projekt.Notes.NoteRequest;
+import com.projekt.projekt.Repositories.NoteRepository;
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,6 +113,36 @@ public class NoteController {
         System.out.println(mav.getModel().get("sortDir"));
         return mav;
     }
+    @GetMapping("/edit/{id}")
+    public ModelAndView editNote(@PathVariable Long id) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("note");
 
+        System.out.println("id: "+id);
+        Optional<Note> note = noteService.getById(id);
+
+        List <Category> categoryList = categoryService.getAllCategories();
+        mav.addObject("title",note.get().getTitle());
+        mav.addObject("noteCategory",note.get().getCategory().getName());
+        mav.addObject("date",note.get().dateToString());
+        mav.addObject("content",note.get().getContent());
+        mav.addObject("categoryList",categoryList);
+        mav.addObject("note",note);
+
+        return mav;
+    }
+    @PostMapping("/edit")
+    public String saveEdited(Note edited){
+        Note note = noteService.getById(edited.getId()).orElseThrow();
+        note.setTitle(edited.getTitle());
+        note.setCategory(categoryService.getByName(edited.getCategoryName()).orElseThrow());
+        note.setContent(edited.getContent());
+        noteService.save(note);
+        System.out.println(edited.getId());
+        System.out.println("Title: "+note.getTitle());
+        System.out.println("Category: "+note.getCategory().getName());
+        System.out.println("Content: "+note.getContent());
+        return "redirect:/notes";
+    }
 
 }

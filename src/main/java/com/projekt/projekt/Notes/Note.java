@@ -19,6 +19,14 @@ public class Note {
     @JoinColumn(name="category_id")
     private Category category;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
     public Note(String title, String content, LocalDateTime date, Category category) {
         this.title = title;
         this.content = content;
@@ -51,6 +59,10 @@ public class Note {
         return tmp;
     }
 
+    public LocalDateTime getDate() {
+        return date;
+    }
+
     public Long getId() {
         return id;
     }
@@ -65,6 +77,18 @@ public class Note {
 
     public Category getCategory() {
         return category;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
 

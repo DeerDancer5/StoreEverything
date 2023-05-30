@@ -98,6 +98,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Category</th>
                     <th scope="col">Date</th>
+                    <th scope="col"></th>
 
 
                 </tr>
@@ -107,7 +108,14 @@
                     <td th:text="${note.getTitle()}"/>
                     <td th:text="${note.getCategoryName()}"/>
                     <td th:text="${note.dateToString()}"/>
+                    <td>
+                        <form th:action="@{|/notes/edit/${note.getId()}|}"  method="get">
 
+                            <button  type="submit">
+                                <i>Edit</i>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
 
                 </tbody>

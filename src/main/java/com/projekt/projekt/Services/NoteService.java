@@ -10,7 +10,7 @@ import com.projekt.projekt.Notes.Note;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Optional;
 
 
 @Service
@@ -98,6 +98,12 @@ public class NoteService {
         }
 
         return notesPage;
+    }
+    public Optional<Note> getById(Long id) {
+        return noteRepository.findById(id);
+    }
+    public void save(Note note){
+        noteRepository.save(note);
     }
 
 }

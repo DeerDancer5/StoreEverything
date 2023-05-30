@@ -1,0 +1,50 @@
+<x></x><!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Homepage</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+<div th:insert="~{navbar :: navbar}">  </div>
+<div class="container">
+  <div class="text-center">
+
+          <form th:action="@{|/notes/edit|}" th:object="${note}" method="post">
+              <h2> Title: <input th:type="text" name="title"  th:value="${title}"></h2>
+              <div><h4>Category:
+                  <select name="categoryName">
+                      <option th:each="category : ${categoryList}"
+                              th:value="${category.getName()}"
+                              th:selected="(${category.getName()} == ${noteCategory})"
+                              th:text="${category.getName()}">
+                      </option>
+              </select></h4>
+                  <div class="content">
+                      <h4> <input th:type="text" name="content" th:value="${content}"></h4>
+                  </div>
+
+                  <input type="hidden"  th:value="${note.get().getId()}" name="id"/>
+                  <input type="hidden"  th:value="${note.get().getDate()}" name="date"/>
+
+              <button  type="submit">
+                  Save
+              </button> </div>
+          </form>
+      <button  type="submit">
+          Delete
+      </button> </div>
+  </div>
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+</body>
+</html>
