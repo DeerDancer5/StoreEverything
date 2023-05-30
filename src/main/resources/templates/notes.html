@@ -52,6 +52,14 @@
 
         <div class="col-md-10"><hr>
             <div class="row">
+                <td>
+                    <form th:action="@{/notes/add}"  method="get">
+
+                        <button  type="submit">
+                            +Add note
+                        </button>
+                    </form>
+                </td>
                 <form th:action="@{/notes}" th:object="${noteRequest}" method="post">
 
                     <div class="col-md-12" th:align="left">

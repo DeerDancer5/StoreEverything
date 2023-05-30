@@ -2,7 +2,6 @@ package com.projekt.projekt.Controllers;
 import com.projekt.projekt.Notes.Category;
 import com.projekt.projekt.Notes.Note;
 import com.projekt.projekt.Notes.NoteRequest;
-import com.projekt.projekt.Repositories.NoteRepository;
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -32,7 +32,7 @@ public class NoteController {
             @RequestParam Optional <String> selectedCategory,
             Model model) {
 
-        Page <Note> notes = noteService.getNotesPage(page.orElse(0),pageSize.orElse(6),
+        Page <Note> notes = noteService.getNotesPage(page.orElse(0),pageSize.orElse(10),
                 sortBy.orElse("id"),sortDir.orElse("asc"), selectedCategory.orElse(""));
         List <Category> categoryList = categoryService.getAllCategories();
         Collections.sort(categoryList);
@@ -49,7 +49,7 @@ public class NoteController {
         model.addAttribute("Name","UserName");
         model.addAttribute("NotesList",notes);
         model.addAttribute("page", page.orElse(0));
-        model.addAttribute("pageSize",pageSize.orElse(6));
+        model.addAttribute("pageSize",pageSize.orElse(10));
         model.addAttribute("sortBy",sortBy.orElse("id"));
         model.addAttribute("sortDir",sortDir.orElse("asc"));
         model.addAttribute("noteRequest",new NoteRequest());
@@ -110,15 +110,12 @@ public class NoteController {
         mav.addObject("Name","UserName");
         mav.addObject("NotesList",notes);
 
-        System.out.println(mav.getModel().get("sortDir"));
         return mav;
     }
     @GetMapping("/edit/{id}")
     public ModelAndView editNote(@PathVariable Long id) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("note");
-
-        System.out.println("id: "+id);
+        mav.setViewName("edit");
         Optional<Note> note = noteService.getById(id);
 
         List <Category> categoryList = categoryService.getAllCategories();
@@ -138,10 +135,26 @@ public class NoteController {
         note.setCategory(categoryService.getByName(edited.getCategoryName()).orElseThrow());
         note.setContent(edited.getContent());
         noteService.save(note);
-        System.out.println(edited.getId());
+        return "redirect:/notes";
+    }
+    @GetMapping("/add")
+    public ModelAndView addNote(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("add");
+        List <Category> categoryList = categoryService.getAllCategories();
+        Note note = new Note();
+        mav.addObject("note",note);
+        mav.addObject("categoryList",categoryList);
+        return mav;
+    }
+    @PostMapping("/add")
+    public String save(Note note){
+        note.setCategory(categoryService.getByName(note.getCategoryName()).orElseThrow());
+        note.setDate(LocalDateTime.now());
         System.out.println("Title: "+note.getTitle());
         System.out.println("Category: "+note.getCategory().getName());
         System.out.println("Content: "+note.getContent());
+        noteService.save(note);
         return "redirect:/notes";
     }
 
