@@ -33,7 +33,7 @@ public class NoteController {
             Model model) {
 
         Page <Note> notes = noteService.getNotesPage(page.orElse(0),pageSize.orElse(10),
-                sortBy.orElse("id"),sortDir.orElse("asc"), selectedCategory.orElse(""));
+                sortBy.orElse("date"),sortDir.orElse("desc"), selectedCategory.orElse(""));
         List <Category> categoryList = categoryService.getAllCategories();
         Collections.sort(categoryList);
         List<String> sortOptions = noteService.getSortOptions();
@@ -50,8 +50,8 @@ public class NoteController {
         model.addAttribute("NotesList",notes);
         model.addAttribute("page", page.orElse(0));
         model.addAttribute("pageSize",pageSize.orElse(10));
-        model.addAttribute("sortBy",sortBy.orElse("id"));
-        model.addAttribute("sortDir",sortDir.orElse("asc"));
+        model.addAttribute("sortBy",sortBy.orElse("date"));
+        model.addAttribute("sortDir",sortDir.orElse("desc"));
         model.addAttribute("noteRequest",new NoteRequest());
 
         return "notes";
@@ -155,6 +155,12 @@ public class NoteController {
         System.out.println("Category: "+note.getCategory().getName());
         System.out.println("Content: "+note.getContent());
         noteService.save(note);
+        return "redirect:/notes";
+    }
+    @PostMapping("/delete/{id}")
+    public String deleteNote(@PathVariable Long id){
+        Note note = noteService.getById(id).orElseThrow();
+        noteService.delete(note);
         return "redirect:/notes";
     }
 

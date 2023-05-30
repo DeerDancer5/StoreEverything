@@ -34,9 +34,12 @@
                   Save
               </button> </div>
           </form>
-      <button  type="submit">
-          Delete
-      </button> </div>
+
+
+          <form th:action="@{|/notes/delete/${note.get().getId()}|}"  method="post">
+              <button  type="submit">
+          Delete</button></form>
+       </div>
   </div>
 </div>
 

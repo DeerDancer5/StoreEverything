@@ -105,5 +105,8 @@ public class NoteService {
     public void save(Note note){
         noteRepository.save(note);
     }
+    public void delete(Note note) {
+        noteRepository.delete(note);
+    }
 
 }
