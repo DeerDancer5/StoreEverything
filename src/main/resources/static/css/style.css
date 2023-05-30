@@ -8,3 +8,6 @@
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+.containerEdit{
+    font-size: 14pt;
+}

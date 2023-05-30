@@ -33,7 +33,6 @@
                 <li th:each="category : ${CategoryList}">
                     <label th:for="${category}" th:text="${category.getName()}" ></label>
                     <input type="checkbox" th:field="*{selectedCategory}" th:value="${category.getName()}"/>
-
                 </li>
                     <input type="hidden"  th:value="${pageSize}" th:name="pageSize"/>
                     <input type="hidden"  th:value="${page}" th:name="page"/>
@@ -41,7 +40,7 @@
                     <input type="hidden"  th:value="${sortDir}" th:name="sortDir">
 
                     <div class="field">
-                        <button class="ui button" type="submit">Filter</button>
+                        <button class="ui button mt-3" type="submit">Filter</button>
                     </div>
                 </form>
 
@@ -50,16 +49,15 @@
         </div>
 
 
-        <div class="col-md-10"><hr>
+        <div class="col-md-10">
             <div class="row">
                 <td>
                     <form th:action="@{/notes/add}"  method="get">
 
-                        <button  type="submit">
-                            +Add note
+                        <button class="btn btn-info" type="submit"> +Add note
                         </button>
                     </form>
-                </td>
+                </td><hr class="mt-2">
                 <form th:action="@{/notes}" th:object="${noteRequest}" method="post">
 
                     <div class="col-md-12" th:align="left">
@@ -88,7 +86,7 @@
                         </div>
                     </div>
                 </form>
-            <div class="col-md-5">
+            <div class="col">
                     <span>
                         <div th:align="right">Page
                         <span class="Strona" th:text="${page+1}"></span>
