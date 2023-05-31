@@ -32,49 +32,52 @@
     </div>
 
     <div id="scroll-target">
-        <div class="corner0 header1 bg-dark text-white row my-10 mt-7" >
-            <div class="col-md-6 mt-5">
+        <div class="corner0 header1 bg-dark text-white row my-5 mt-5" >
+            <div class="col-md-7 mt-5">
                 <div class="mt-4" th:align="center">
                     <h2>Your own notes storage</h2>
                     <p>You can see what's in there any time</p>
 
-                     <a class="btn btn-primary my-5" href="http://localhost:8080/notes" th:maxlength="50" th:align="center" th:width="50">Show page</a>
+                     <a class="btn btn-primary my-4" href="http://localhost:8080/notes"  th:align="right" >Show page</a>
 
                 </div>
 
             </div>
-            <div th:align="right" class="col-md-5 mt-5">
+            <div th:align="center" class="col-md-5 mt-5">
+
+                <h1><i class="gg-folder mt-5"></i></h1>
 
 
             </div>
         </div>
 
-        <div class="corner row bg-secondary text-white my-10 mt-5">
-            <div class="col-md-7 mt-5">
+        <div class="corner row bg-secondary text-white my-5 mt-5">
+            <div th:align="center" class="col-md-5 mt-5">
+                <i class="gg-add mt-5"></i>
 
             </div>
-            <div class="col-md-5 mt-5">
+            <div th:align="right" class="col-md-7 mt-5">
                 <div class="mt-4" th:align="center">
                     <h2>Create a note of your own</h2>
                     <p>Want to store some information for later?</p>
 
-                    <a class="btn btn-primary my-5" href="http://localhost:8080/notes/add?" th:maxlength="50" th:align="center" th:width="50">Show page</a>
+                    <a class="btn btn-primary my-4" href="http://localhost:8080/notes/add?" th:maxlength="50" th:align="center" th:width="50">Show page</a>
                 </div>
 
             </div>
         </div>
 
-        <div class="corner2 row bg-black text-white my-10 mt-5">
-            <div class="col-md-6">
+        <div class="corner2 row bg-black text-white my-5 mt-5">
+            <div class="col-md-7">
                 <div class="mt-4" th:align="center">
                     <h2>See what other users shared with you</h2>
                     <p>Easy access to notes that were shared for you</p>
-                    <div th:align="center" class="btn btn-primary my-5" th:maxlength="50" th:width="50">Show page </div>
+                    <div th:align="center" class="btn btn-primary my-4" th:maxlength="50" th:width="50">Show page </div>
 
                 </div>
             </div>
-            <div th:align="right" class="col-md-5 mt-5">
-
+            <div th:align="center" class="col-md-5 mt-5">
+                <i class="gg-share mt-5"></i>
 
             </div>
         </div>
