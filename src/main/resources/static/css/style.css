@@ -11,3 +11,9 @@
 .containerEdit{
     font-size: 14pt;
 }
+.text-info{
+    background-color: darkgray;
+}
+.corner {
+    border-radius:15px;
+}

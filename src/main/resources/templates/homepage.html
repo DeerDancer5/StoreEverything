@@ -12,16 +12,18 @@
 <div th:insert="~{navbar :: navbar}">  </div>
 
 <div class="container">
-    <div class="jumbotron">
+    <div class="bg-light jumbotron">
         <h1 class="display-4" th:align="center">Store Everything</h1>
-        <p class="lead" th:align="center">Prosta aplikacja webowa do przechowywania notatek</p>
-        <hr class="my-4">
+        <p class="lead" th:align="center">Store all your notes here</p>
+        <hr class="my-5">
         <p class="lead">
         <ul>
             <div class="text-center">
-                <h2> <a th:href="@{/login}">Zaloguj się</a></h2>
-                <h2> <a th:href="@{/register}">Zarejestruj się</a></h2>
-                <a th:align="center" class="arrow down my-5" href="#scroll-target" role="button"></a>
+                <h1 class="my-5"> <a class="btn btn-info" th:href="@{/login}">Log in</a></h1>
+                <h1 class="my-5"> <a class="btn btn-info" th:href="@{/register}">Register</a></h1>
+                <h2>Features</h2>
+                <p>see more</p>
+                <a th:align="center" class="arrow down" href="#scroll-target" role="button"></a>
 
             </div>
         </ul>
@@ -30,14 +32,13 @@
     </div>
 
     <div id="scroll-target">
-        <div class="row my-10 mt-5" >
-            <div class="col-md-5 mt-5">
+        <div class="header1 bg-dark text-white row my-10 mt-7" >
+            <div class="col-md-6 mt-5">
                 <div class="mt-4" th:align="center">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Accusamus aliquid aperiam delectus eaque earum et hic illo in maiores,
-                    nulla officiis, omnis provident qui quidem repellat similique sit sunt tempore?
+                    <h2>Your own notes storage</h2>
+                    <p>You can see what's in there any time</p>
 
-                    <div th:align="center" class="btn btn-primary mt-5" th:maxlength="50" th:width="50">Pokaż stronę </div>
+                     <a class="btn btn-primary my-5" href="http://localhost:8080/notes" th:maxlength="50" th:align="center" th:width="50">Show page</a>
 
                 </div>
 
@@ -48,28 +49,27 @@
             </div>
         </div>
 
-        <div class="row bg-primary text-white my-10 mt-5">
+        <div class="corner row bg-secondary text-white my-10 mt-5">
             <div class="col-md-7 mt-5">
 
             </div>
             <div class="col-md-5 mt-5">
                 <div class="mt-4" th:align="center">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Accusamus aliquid aperiam delectus eaque earum et hic illo in maiores,
-                    nulla officiis, omnis provident qui quidem repellat similique sit sunt tempore?
-                    <div th:align="center" class="btn btn-primary my-5" th:maxlength="50" th:width="50">Pokaż stronę </div>
+                    <h2>Create a note of your own</h2>
+                    <p>Want to store some information for later?</p>
+
+                    <a class="btn btn-primary my-5" href="http://localhost:8080/notes/add?" th:maxlength="50" th:align="center" th:width="50">Show page</a>
                 </div>
 
             </div>
         </div>
 
-        <div class="row bg-secondary text-white my-10">
-            <div class="col-md-5">
+        <div class="row bg-black text-white my-10 mt-5">
+            <div class="col-md-6">
                 <div class="mt-4" th:align="center">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Accusamus aliquid aperiam delectus eaque earum et hic illo in maiores,
-                    nulla officiis, omnis provident qui quidem repellat similique sit sunt tempore?
-                    <div th:align="center" class="btn btn-primary my-5" th:maxlength="50" th:width="50">Pokaż stronę </div>
+                    <h2>See what other users shared with you</h2>
+                    <p>Easy access to notes that were shared for you</p>
+                    <div th:align="center" class="btn btn-primary my-5" th:maxlength="50" th:width="50">Show page </div>
 
                 </div>
             </div>
