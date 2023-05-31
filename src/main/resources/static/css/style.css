@@ -15,5 +15,17 @@
     background-color: darkgray;
 }
 .corner {
-    border-radius:15px;
+    border-radius: 20px 20px 20px;
+}
+.corner0 {
+    border-radius: 20px 20px 20px;
+}
+.corner2 {
+    border-radius: 20px 20px 20px;
+}
+.jumbotron{
+    border-radius: 20px 20px 20px;
+}
+.navbar{
+    border-radius: 0px 0px 10px 10px;
 }
