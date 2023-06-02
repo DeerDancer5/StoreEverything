@@ -7,6 +7,9 @@ import org.springframework.data.domain.*;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import com.projekt.projekt.Notes.Note;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,13 +28,15 @@ public class NoteService {
            int pageSize,
            String sortBy,
            String sortDir,
-           String category
+           String category,
+           String startDate,
+           String endDate
     ) {
         Direction d = Direction.ASC;
         if(sortDir.equals("desc")) {
             d = Direction.DESC;
         }
-        Page <Note> notesPage = getResults(category,page,pageSize,d,sortBy.toLowerCase(),sortDir);
+        Page <Note> notesPage = getResults(category,page,pageSize,d,sortBy.toLowerCase(),sortDir,startDate,endDate);
         updateCategoryNames(notesPage);
         return notesPage;
 
@@ -80,10 +85,15 @@ public class NoteService {
         sizes.add(10);
         return sizes;
     }
-    private Page <Note> getResults(String category,int page,int pageSize,Direction d,String sortBy,String sortDir){
+    private Page <Note> getResults(String category,int page,int pageSize,Direction d,String sortBy,String sortDir,String startDate,
+                                   String endDate){
         Page<Note> notesPage;
+        Pageable pageable = PageRequest.of(page,pageSize,d,sortBy);
+        LocalDateTime start = dateFromString(startDate);
+        LocalDateTime end = dateFromString(endDate);
+        notesPage = noteRepository.filterNotesByDate(start,end,pageable);
         if(category.length()>0) {
-            Pageable pageable = PageRequest.of(page,pageSize,d,sortBy);
+
             String [] split = category.split(",");
             notesPage=noteRepository.filterNotesByCategory(split,pageable);
         }
@@ -97,6 +107,8 @@ public class NoteService {
 
         }
 
+
+
         return notesPage;
     }
     public Optional<Note> getById(Long id) {
@@ -105,8 +117,21 @@ public class NoteService {
     public void save(Note note){
         noteRepository.save(note);
     }
+    public String getEarliestDate() {
+        List <Note> list = noteRepository.findAll();
+        Collections.sort(list,
+                (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+        String date = (list.get(0).dateToString());
+        return date;
+    }
     public void delete(Note note) {
         noteRepository.delete(note);
+    }
+    public LocalDateTime dateFromString(String date) {
+        String [] split = date.split("-");
+        LocalDate tmp = LocalDate.of(Integer.parseInt(split[0]),Integer.parseInt(split[1]),Integer.parseInt(split[2]));
+        LocalDateTime output = tmp.atStartOfDay();
+        return output;
     }
 
 }

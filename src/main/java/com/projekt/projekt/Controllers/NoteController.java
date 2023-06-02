@@ -30,17 +30,25 @@ public class NoteController {
             @RequestParam Optional<String> sortBy,
             @RequestParam Optional<String> sortDir,
             @RequestParam Optional <String> selectedCategory,
+            @RequestParam Optional <String> startDate,
+            @RequestParam Optional <String> endDate,
             Model model) {
 
+        String today = LocalDateTime.now().getYear()+"-"+LocalDateTime.now().getMonthValue()+"-"+
+                LocalDateTime.now().getDayOfMonth();
         Page <Note> notes = noteService.getNotesPage(page.orElse(0),pageSize.orElse(10),
-                sortBy.orElse("date"),sortDir.orElse("desc"), selectedCategory.orElse(""));
+                sortBy.orElse("date"),sortDir.orElse("desc"), selectedCategory.orElse(""),
+                startDate.orElse(noteService.getEarliestDate()),endDate.orElse(today));
         List <Category> categoryList = categoryService.getAllCategories();
         Collections.sort(categoryList);
         List<String> sortOptions = noteService.getSortOptions();
         List<Integer> sizeOptions = noteService.getSizeOptions();
+
         int numberOfPages= notes.getTotalPages()-1;
         int numberOfElements = (int) notes.getTotalElements();
         model.addAttribute("selectedCategory", selectedCategory.orElse(""));
+        model.addAttribute("startDate", startDate.orElse(noteService.getEarliestDate()));
+        model.addAttribute("endDate", endDate.orElse(today));
         model.addAttribute("CategoryList",categoryList);
         model.addAttribute("SortOptions",sortOptions);
         model.addAttribute("SizeOptions",sizeOptions);
@@ -79,6 +87,8 @@ public class NoteController {
 
         mav.setViewName("notes");
         String category=null;
+        LocalDateTime start=null;
+        LocalDateTime end=null;
         if(noteRequest.getSortBy().equals("--")){
             noteRequest.setSortBy("id");
         }
@@ -86,9 +96,20 @@ public class NoteController {
 
            category = String.join(",",noteRequest.getSelectedCategory());
         }
+        if(noteRequest.getStartDate().equals("")) {
+
+            noteRequest.setStartDate(noteService.getEarliestDate());
+        }
+        if(noteRequest.getEndDate().equals("")) {
+            String today = LocalDateTime.now().getYear()+"-"+LocalDateTime.now().getMonthValue()+"-"+
+                    LocalDateTime.now().getDayOfMonth();
+            noteRequest.setEndDate(today);
+        }
+
+
 
         Page <Note> notes = noteService.getNotesPage(Integer.parseInt(noteRequest.getPage()),Integer.parseInt(noteRequest.getPageSize()),
-                noteRequest.getSortBy(),noteRequest.getSortDir(), category);
+                noteRequest.getSortBy(),noteRequest.getSortDir(), category,noteRequest.getStartDate(),noteRequest.getEndDate());
         List <Category> categoryList = categoryService.getAllCategories();
         Collections.sort(categoryList);
         List<String> sortOptions = noteService.getSortOptions();
@@ -109,6 +130,7 @@ public class NoteController {
         mav.addObject("NumberOfElements",numberOfElements);
         mav.addObject("Name","Your notes");
         mav.addObject("NotesList",notes);
+        mav.addObject("endDate",noteRequest.getEndDate());
 
         return mav;
     }
