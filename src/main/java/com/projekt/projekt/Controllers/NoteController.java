@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -30,15 +30,13 @@ public class NoteController {
             @RequestParam Optional<String> sortBy,
             @RequestParam Optional<String> sortDir,
             @RequestParam Optional <String> selectedCategory,
-            @RequestParam Optional <String> startDate,
-            @RequestParam Optional <String> endDate,
             Model model) {
+        LocalDate startDate = noteService.dateFromString(noteService.getEarliestDate()).toLocalDate();
+        LocalDate endDate = LocalDate.now();
 
-        String today = LocalDateTime.now().getYear()+"-"+LocalDateTime.now().getMonthValue()+"-"+
-                LocalDateTime.now().getDayOfMonth();
         Page <Note> notes = noteService.getNotesPage(page.orElse(0),pageSize.orElse(10),
                 sortBy.orElse("date"),sortDir.orElse("desc"), selectedCategory.orElse(""),
-                startDate.orElse(noteService.getEarliestDate()),endDate.orElse(today));
+               startDate,endDate);
         List <Category> categoryList = categoryService.getAllCategories();
         Collections.sort(categoryList);
         List<String> sortOptions = noteService.getSortOptions();
@@ -47,8 +45,8 @@ public class NoteController {
         int numberOfPages= notes.getTotalPages()-1;
         int numberOfElements = (int) notes.getTotalElements();
         model.addAttribute("selectedCategory", selectedCategory.orElse(""));
-        model.addAttribute("startDate", startDate.orElse(noteService.getEarliestDate()));
-        model.addAttribute("endDate", endDate.orElse(today));
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
         model.addAttribute("CategoryList",categoryList);
         model.addAttribute("SortOptions",sortOptions);
         model.addAttribute("SizeOptions",sizeOptions);
@@ -87,8 +85,7 @@ public class NoteController {
 
         mav.setViewName("notes");
         String category=null;
-        LocalDateTime start=null;
-        LocalDateTime end=null;
+
         if(noteRequest.getSortBy().equals("--")){
             noteRequest.setSortBy("id");
         }
@@ -96,17 +93,9 @@ public class NoteController {
 
            category = String.join(",",noteRequest.getSelectedCategory());
         }
-        if(noteRequest.getStartDate().equals("")) {
 
-            noteRequest.setStartDate(noteService.getEarliestDate());
-        }
-        if(noteRequest.getEndDate().equals("")) {
-            String today = LocalDateTime.now().getYear()+"-"+LocalDateTime.now().getMonthValue()+"-"+
-                    LocalDateTime.now().getDayOfMonth();
-            noteRequest.setEndDate(today);
-        }
-
-
+        System.out.println("start date:"+noteRequest.getStartDate());
+        System.out.println("end date: "+noteRequest.getEndDate().toString());
 
         Page <Note> notes = noteService.getNotesPage(Integer.parseInt(noteRequest.getPage()),Integer.parseInt(noteRequest.getPageSize()),
                 noteRequest.getSortBy(),noteRequest.getSortDir(), category,noteRequest.getStartDate(),noteRequest.getEndDate());
@@ -130,6 +119,7 @@ public class NoteController {
         mav.addObject("NumberOfElements",numberOfElements);
         mav.addObject("Name","Your notes");
         mav.addObject("NotesList",notes);
+        mav.addObject("startDate",noteRequest.getStartDate());
         mav.addObject("endDate",noteRequest.getEndDate());
 
         return mav;

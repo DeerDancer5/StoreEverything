@@ -10,12 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note,Long> {
     @Query("SELECT c FROM Note c WHERE c.category.name in :category_names")
     Page<Note> filterNotesByCategory(@Param("category_names")String[] category_names, Pageable pageable);
-    @Query("SELECT c FROM Note c WHERE c.date BETWEEN :start AND :end")
-    Page<Note> filterNotesByDate(@Param("start") LocalDateTime start, @Param("end")LocalDateTime end, Pageable pageable);
+    @Query("SELECT c FROM Note c WHERE c in :notes AND c.date BETWEEN :start AND :end")
+    Page<Note> filterNotesByDate(@Param("start") LocalDateTime start, @Param("end")LocalDateTime end, @Param("notes") List<Note> notes, Pageable pageable);
 
 }

@@ -34,12 +34,19 @@
                     <label th:for="${category}" th:text="${category.getName()}" ></label>
                     <input type="checkbox" th:field="*{selectedCategory}" th:value="${category.getName()}"/>
                 </li>
+                    <div>
+                    <label for="startDate">From:</label>
+                    <input type="date" th:name="startDate" th:value="${startDate}" id="startDate"/>
+                    </div>
+                    <div>
+                        <label for="endDate">To:</label>
+                        <input type="date" th:name="endDate" th:value="${endDate}" id="endDate"/>
+                    </div>
                     <input type="hidden"  th:value="${pageSize}" th:name="pageSize"/>
                     <input type="hidden"  th:value="0" th:name="page"/>
                     <input type="hidden"  th:value="${sortBy}" th:name="sortBy"/>
                     <input type="hidden"  th:value="${sortDir}" th:name="sortDir">
-                    <input type="hidden"  th:value="${startDate}" th:name="startDate">
-                    <input type="hidden"  th:value="${endDate}" th:name="endDate">
+
 
                     <div class="field">
                         <button class="ui button mt-3" type="submit">Filter</button>

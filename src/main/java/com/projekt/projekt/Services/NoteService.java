@@ -7,7 +7,6 @@ import org.springframework.data.domain.*;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import com.projekt.projekt.Notes.Note;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,8 +28,8 @@ public class NoteService {
            String sortBy,
            String sortDir,
            String category,
-           String startDate,
-           String endDate
+           LocalDate startDate,
+           LocalDate endDate
     ) {
         Direction d = Direction.ASC;
         if(sortDir.equals("desc")) {
@@ -85,13 +84,13 @@ public class NoteService {
         sizes.add(10);
         return sizes;
     }
-    private Page <Note> getResults(String category,int page,int pageSize,Direction d,String sortBy,String sortDir,String startDate,
-                                   String endDate){
+    private Page <Note> getResults(String category,int page,int pageSize,Direction d,String sortBy,String sortDir,LocalDate startDate,
+                                   LocalDate endDate){
         Page<Note> notesPage;
         Pageable pageable = PageRequest.of(page,pageSize,d,sortBy);
-        LocalDateTime start = dateFromString(startDate);
-        LocalDateTime end = dateFromString(endDate);
-        notesPage = noteRepository.filterNotesByDate(start,end,pageable);
+        LocalDateTime start = startDate.atStartOfDay();
+        LocalDateTime end = endDate.atTime(23,59,59);
+
         if(category.length()>0) {
 
             String [] split = category.split(",");
@@ -102,10 +101,12 @@ public class NoteService {
                     PageRequest.of(page, pageSize, d,sortBy));
 
         }
+
         if(sortBy.equals("category")){
             notesPage = sortByCategoryPopularity(notesPage,sortDir);
-
         }
+        List <Note> tmp = notesPage.getContent();
+        notesPage = noteRepository.filterNotesByDate(start,end,tmp,pageable);
 
 
 

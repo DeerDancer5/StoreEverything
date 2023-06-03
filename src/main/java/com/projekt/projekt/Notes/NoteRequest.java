@@ -1,28 +1,17 @@
 package com.projekt.projekt.Notes;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class NoteRequest {
     private String sortBy;
     private String pageSize;
     private String page;
     private String sortDir;
-    private String startDate;
 
-    public String getStartDate() {
-        return startDate;
-    }
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    private String endDate;
     private String[] selectedCategory;
 
 
@@ -65,5 +54,21 @@ public class NoteRequest {
 
     public void setSelectedCategory(String [] selectedCategory) {
         this.selectedCategory = selectedCategory;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 }
