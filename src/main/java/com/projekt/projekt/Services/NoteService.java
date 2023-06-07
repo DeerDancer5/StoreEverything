@@ -9,10 +9,7 @@ import org.springframework.stereotype.Service;
 import com.projekt.projekt.Notes.Note;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -86,27 +83,38 @@ public class NoteService {
     }
     private Page <Note> getResults(String category,int page,int pageSize,Direction d,String sortBy,String sortDir,LocalDate startDate,
                                    LocalDate endDate){
-        Page<Note> notesPage;
         Pageable pageable = PageRequest.of(page,pageSize,d,sortBy);
         LocalDateTime start = startDate.atStartOfDay();
         LocalDateTime end = endDate.atTime(23,59,59);
+        Page<Note> notesPage  = noteRepository.filterNotesByDate(start,end,pageable);
+
+
 
         if(category.length()>0) {
 
             String [] split = category.split(",");
             notesPage=noteRepository.filterNotesByCategory(split,pageable);
         }
-        else {
-            notesPage = noteRepository.findAll(
-                    PageRequest.of(page, pageSize, d,sortBy));
+
+
+        if(sortBy.equals("category")) {
+            notesPage = noteRepository.sortNotesByCategoryPopularityDesc(start,end,pageable);
+
+            if(sortDir.toLowerCase().equals("asc")) {
+                notesPage = noteRepository.sortNotesByCategoryPopularityAsc(start,end,pageable);
+
+            }
+
+
+            else if(sortDir.toLowerCase().equals("desc")) {
+                notesPage = noteRepository.sortNotesByCategoryPopularityDesc(start,end,pageable);
+
+
+            }
 
         }
 
-        if(sortBy.equals("category")){
-            notesPage = sortByCategoryPopularity(notesPage,sortDir);
-        }
-        List <Note> tmp = notesPage.getContent();
-        notesPage = noteRepository.filterNotesByDate(start,end,tmp,pageable);
+
 
 
 
