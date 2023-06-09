@@ -4,7 +4,6 @@ import com.projekt.projekt.Notes.Note;
 import com.projekt.projekt.Notes.NoteRequest;
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,8 +27,8 @@ public class NoteController {
     @GetMapping()
     public ModelAndView update(@ModelAttribute NoteRequest noteRequest, HttpSession session) {
         ModelAndView mav = new ModelAndView();
-
         mav.setViewName("notes");
+
         if(noteRequest.getPage()==null) {
             if(session.isNew()) {
                 mav = addNewParameters(mav);
