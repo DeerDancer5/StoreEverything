@@ -29,10 +29,10 @@
                 <div class="row my-2">
                     Category:
                 </div>
-                <form th:action="@{/notes}" th:object="${noteRequest}" th:field="selectedCategory" method="post">
+                <form th:action="@{/notes}" th:object="${noteRequest}" th:field="selectedCategory" method="get">
                 <li th:each="category : ${CategoryList}">
                     <label th:for="${category}" th:text="${category.getName()}" ></label>
-                    <input type="checkbox" th:field="*{selectedCategory}" th:value="${category.getName()}"/>
+                    <input type="checkbox" th:field="*{selectedCategory}" th:checked="${selectedCategory.contains(category.getName())}" th:value="${category.getName()}"/>
                 </li>
                     <div>
                     <label for="startDate">From:</label>
@@ -67,7 +67,7 @@
                         </button>
                     </form>
                 </td><hr class="mt-2">
-                <form th:action="@{/notes}" th:object="${noteRequest}" method="post">
+                <form th:action="@{/notes}" th:object="${noteRequest}" method="get">
 
                     <div class="col-md-12" th:align="left">
 
@@ -140,7 +140,7 @@
             </table>
         <div class="row" th:align="left">
             <div class="col">
-                <form th:action="@{/notes}" th:object="${noteRequest}" method="post">
+                <form th:action="@{/notes}" th:object="${noteRequest}" method="get">
 
                     <p>Items per page:
                         <select name="pageSize">

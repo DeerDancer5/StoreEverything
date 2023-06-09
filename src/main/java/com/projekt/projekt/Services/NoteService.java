@@ -1,5 +1,4 @@
 package com.projekt.projekt.Services;
-import com.projekt.projekt.Notes.Category;
 import com.projekt.projekt.Repositories.CategoryRepository;
 import com.projekt.projekt.Repositories.NoteRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,28 +36,7 @@ public class NoteService {
         return notesPage;
 
     }
-    private Page <Note> sortByCategoryPopularity(Page <Note> notesPage, String sortDir) {
-        List<Category> categoryList = categoryRepository.findAll();
-        List <Note> tmp = notesPage.getContent();
-        Collections.sort(categoryList);
-        if (sortDir.equals("desc")) {
-            Collections.reverse(categoryList);
-        }
 
-        List <Note> sorted = new ArrayList<>();
-        for(int i=0;i<categoryList.size();i++) {
-            for(int j=0;j<tmp.size();j++) {
-                if(tmp.get(j).getCategory().equals(categoryList.get(i))) {
-                    sorted.add(tmp.get(j));
-                }
-            }
-        }
-        Pageable pageable=notesPage.getPageable();
-        final int start = (int)pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), sorted.size());
-        notesPage = new PageImpl<>(sorted.subList(start, end), pageable, sorted.size());
-        return notesPage;
-    }
     private void updateCategoryNames(Page <Note> notesPage) {
         List<Note> list = notesPage.getContent();
         for (int i = 0; i < list.size(); i++) {
@@ -89,14 +67,6 @@ public class NoteService {
         Page<Note> notesPage  = noteRepository.filterNotesByDate(start,end,pageable);
 
 
-
-        if(category.length()>0) {
-
-            String [] split = category.split(",");
-            notesPage=noteRepository.filterNotesByCategory(split,pageable);
-        }
-
-
         if(sortBy.equals("category")) {
             notesPage = noteRepository.sortNotesByCategoryPopularityDesc(start,end,pageable);
 
@@ -113,6 +83,14 @@ public class NoteService {
             }
 
         }
+        if(category.length()>0) {
+
+            String [] split = category.split(",");
+            notesPage=noteRepository.filterNotesByCategory(split,pageable);
+        }
+
+
+
 
 
 

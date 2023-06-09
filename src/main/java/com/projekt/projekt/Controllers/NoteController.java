@@ -4,9 +4,10 @@ import com.projekt.projekt.Notes.Note;
 import com.projekt.projekt.Notes.NoteRequest;
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,95 +24,45 @@ public class NoteController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping
-    private String getNotes(
-            @RequestParam Optional<Integer> page,
-            @RequestParam Optional<Integer> pageSize,
-            @RequestParam Optional<String> sortBy,
-            @RequestParam Optional<String> sortDir,
-            @RequestParam Optional <String> selectedCategory,
-            Model model) {
-        LocalDate startDate = noteService.dateFromString(noteService.getEarliestDate()).toLocalDate();
-        LocalDate endDate = LocalDate.now();
 
-        Page <Note> notes = noteService.getNotesPage(page.orElse(0),pageSize.orElse(10),
-                sortBy.orElse("date"),sortDir.orElse("desc"), selectedCategory.orElse(""),
-               startDate,endDate);
-        List <Category> categoryList = categoryService.getAllCategories();
-        Collections.sort(categoryList);
-        List<String> sortOptions = noteService.getSortOptions();
-        List<Integer> sizeOptions = noteService.getSizeOptions();
-
-        int numberOfPages= notes.getTotalPages()-1;
-        int numberOfElements = (int) notes.getTotalElements();
-        model.addAttribute("selectedCategory", selectedCategory.orElse(""));
-        model.addAttribute("startDate", startDate);
-        model.addAttribute("endDate", endDate);
-        model.addAttribute("CategoryList",categoryList);
-        model.addAttribute("SortOptions",sortOptions);
-        model.addAttribute("SizeOptions",sizeOptions);
-        model.addAttribute("NumberOfPages",numberOfPages);
-        model.addAttribute("NumberOfElements",numberOfElements);
-        model.addAttribute("Name","Your notes");
-        model.addAttribute("NotesList",notes);
-        model.addAttribute("page", page.orElse(0));
-        model.addAttribute("pageSize",pageSize.orElse(10));
-        model.addAttribute("sortBy",sortBy.orElse("date"));
-        model.addAttribute("sortDir",sortDir.orElse("desc"));
-        model.addAttribute("noteRequest",new NoteRequest());
-
-        return "notes";
-    }
-
-  /*  @PostMapping()
-    public String reload(@ModelAttribute NoteRequest noteRequest,Model model){
-        if(noteRequest.getSortBy().equals("--")){
-            noteRequest.setSortBy("id");
-        }
-
-        String redirect = "redirect:/notes?sortBy="+noteRequest.getSortBy().toLowerCase()+"&pageSize="+noteRequest.getPageSize()
-                +"&page=0&sortDir="+noteRequest.getSortDir();
-        if(noteRequest.getSelectedCategory().length>0) {
-            String selectedCategories = String.join(",", noteRequest.getSelectedCategory());
-            System.out.println(model.getAttribute("pageSize"));
-            redirect = redirect +"&selectedCategory="+selectedCategories;
-        }
-
-        return redirect;
-    }*/
-    @PostMapping()
-    public ModelAndView update(@ModelAttribute NoteRequest noteRequest) {
+    @GetMapping()
+    public ModelAndView update(@ModelAttribute NoteRequest noteRequest, HttpSession session) {
         ModelAndView mav = new ModelAndView();
 
         mav.setViewName("notes");
-        String category=null;
+        if(noteRequest.getPage()==null) {
+            if(session.isNew()) {
+                mav = addNewParameters(mav);
 
-        if(noteRequest.getSortBy().equals("--")){
-            noteRequest.setSortBy("id");
+            }
+            else{
+                NoteRequest previous=(NoteRequest) session.getAttribute("noteRequest");
+                mav=addRequestedParameters(mav,previous,session);
+            }
         }
-        if(noteRequest.getSelectedCategory()!=null) {
+        else {
+                addRequestedParameters(mav,noteRequest,session);
 
-           category = String.join(",",noteRequest.getSelectedCategory());
         }
+        return mav;
+    }
+    public ModelAndView addNewParameters(ModelAndView mav){
+        LocalDate startDate = noteService.dateFromString(noteService.getEarliestDate()).toLocalDate();
+        LocalDate endDate = LocalDate.now();
 
-        System.out.println("start date:"+noteRequest.getStartDate());
-        System.out.println("end date: "+noteRequest.getEndDate().toString());
-
-        Page <Note> notes = noteService.getNotesPage(Integer.parseInt(noteRequest.getPage()),Integer.parseInt(noteRequest.getPageSize()),
-                noteRequest.getSortBy(),noteRequest.getSortDir(), category,noteRequest.getStartDate(),noteRequest.getEndDate());
+        Page <Note> notes = noteService.getNotesPage(0,10,
+                "date","desc", "",
+                startDate,endDate);
         List <Category> categoryList = categoryService.getAllCategories();
         Collections.sort(categoryList);
         List<String> sortOptions = noteService.getSortOptions();
         List<Integer> sizeOptions = noteService.getSizeOptions();
-        NoteRequest request = new NoteRequest();
-        request.setSelectedCategory(Arrays.copyOf(noteRequest.getSelectedCategory(),noteRequest.getSelectedCategory().length));
+
         int numberOfPages= notes.getTotalPages()-1;
         int numberOfElements = (int) notes.getTotalElements();
-        mav.addObject("page",Integer.parseInt(noteRequest.getPage()));
-        mav.addObject("pageSize",Integer.parseInt(noteRequest.getPageSize()));
-        mav.addObject("sortBy",noteRequest.getSortBy().toLowerCase());
-        mav.addObject("sortDir",noteRequest.getSortDir());
-        mav.addObject("selectedCategory",category);
+        mav.addObject("selectedCategory", "");
+        mav.addObject("startDate", startDate);
+        mav.addObject("endDate", endDate);
         mav.addObject("CategoryList",categoryList);
         mav.addObject("SortOptions",sortOptions);
         mav.addObject("SizeOptions",sizeOptions);
@@ -119,8 +70,64 @@ public class NoteController {
         mav.addObject("NumberOfElements",numberOfElements);
         mav.addObject("Name","Your notes");
         mav.addObject("NotesList",notes);
-        mav.addObject("startDate",noteRequest.getStartDate());
-        mav.addObject("endDate",noteRequest.getEndDate());
+        mav.addObject("page", 0);
+        mav.addObject("pageSize",10);
+        mav.addObject("sortBy","date");
+        mav.addObject("sortDir","desc");
+        mav.addObject("noteRequest",new NoteRequest());
+
+
+
+
+
+        return mav;
+    }
+    public ModelAndView addRequestedParameters(ModelAndView mav, NoteRequest noteRequest, HttpSession session){
+
+        String category = null;
+
+        if (noteRequest.getSortBy().equals("--")) {
+            noteRequest.setSortBy("id");
+        }
+        if (noteRequest.getSelectedCategory() != null) {
+
+            category = String.join(",", noteRequest.getSelectedCategory());
+        }
+
+        System.out.println("start date:" + noteRequest.getStartDate());
+        System.out.println("end date: " + noteRequest.getEndDate().toString());
+
+        Page<Note> notes = noteService.getNotesPage(Integer.parseInt(noteRequest.getPage()), Integer.parseInt(noteRequest.getPageSize()),
+                noteRequest.getSortBy(), noteRequest.getSortDir(), category, noteRequest.getStartDate(), noteRequest.getEndDate());
+        List<Category> categoryList = categoryService.getAllCategories();
+        Collections.sort(categoryList);
+        List<String> sortOptions = noteService.getSortOptions();
+        List<Integer> sizeOptions = noteService.getSizeOptions();
+        NoteRequest request = new NoteRequest();
+        request.setSelectedCategory(Arrays.copyOf(noteRequest.getSelectedCategory(), noteRequest.getSelectedCategory().length));
+        int numberOfPages = notes.getTotalPages() - 1;
+        int numberOfElements = (int) notes.getTotalElements();
+
+        mav.addObject("page", Integer.parseInt(noteRequest.getPage()));
+        mav.addObject("pageSize", Integer.parseInt(noteRequest.getPageSize()));
+        mav.addObject("sortBy", noteRequest.getSortBy().toLowerCase());
+        mav.addObject("sortDir", noteRequest.getSortDir());
+        mav.addObject("selectedCategory", category);
+        mav.addObject("CategoryList", categoryList);
+        mav.addObject("SortOptions", sortOptions);
+        mav.addObject("SizeOptions", sizeOptions);
+        mav.addObject("NumberOfPages", numberOfPages);
+        mav.addObject("NumberOfElements", numberOfElements);
+        mav.addObject("Name", "Your notes");
+        mav.addObject("NotesList", notes);
+        mav.addObject("startDate", noteRequest.getStartDate());
+        mav.addObject("endDate", noteRequest.getEndDate());
+        mav.addObject("noteRequest", request);
+
+        session.setAttribute("noteRequest",noteRequest);
+
+
+
 
         return mav;
     }
