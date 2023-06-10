@@ -30,7 +30,7 @@ public class NoteController {
         mav.setViewName("notes");
 
         if(noteRequest.getPage()==null) {
-            if(session.isNew()) {
+            if(session.getAttribute("noteRequest")==null) {
                 mav = addNewParameters(mav);
 
             }
