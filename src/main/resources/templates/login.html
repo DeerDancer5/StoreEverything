@@ -10,24 +10,57 @@
 <body>
 
 <div th:insert="~{navbar :: navbar}">  </div>
+
 <div class="container">
-  <div th:fragment="footer" th:align="center">
-    <form th:action="@{/login}" th:object="${person}" method="post">
-          <h1>Log in</h1>
-          <div>
-            <label for="name">Username:</label>
-            <input type="text" id="name" name="name" th:field="*{name}" required="required" />
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
-          </div>
-          <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" th:field="*{password}" required="required" />
-            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
-          </div>
-          <div class="form-check"><input class="form-check-input" type="checkbox" name="rememberme">Zapamiętaj mnie</div>
-          <div><button name="submit" type="submit" class="btn btn-primary" >Login</button></div>
-    </form>
-  </div>
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+
+
+            <form th:action="@{/login}" method="post" th:object="${person}">
+
+                <h1 class="text-center">Login here</h1>
+                <div class="mb-3">
+                    <label for="InputEmail" class="form-label">Username</label>
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           th:value="${person.name}"
+                           th:classappend="${#fields.hasErrors('name')? 'is-invalid':''}"
+                           id="InputEmail"
+                           aria-describedby="emailHelp"/>
+
+                    <div th:each="e : ${#fields.errors('name')}" th:text="${e}" id="validationServer03Feedback" class="invalid-feedback">
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="InputPassword" class="form-label">Password</label>
+                    <input type="password"
+                           name="password"
+                           th:value="${person.password}"
+                           class="form-control"
+                           id="InputPassword"/>
+
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox"
+                           class="form-check-input"
+                           id="Check">
+                    <label class="form-check-label" for="Check">Remember me</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+
+
+        </div>
+    </div>
 </div>
 
 

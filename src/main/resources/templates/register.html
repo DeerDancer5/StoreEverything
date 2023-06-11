@@ -9,31 +9,67 @@
 </head>
 <body>
 <div th:insert="~{navbar :: navbar}">  </div>
+
 <div class="container">
-    <div th:fragment="footer" th:align="center">
-         <form action="#" th:action="@{/register}" th:object="${person}" method="post">
-                    <h1>Sign up</h1>
-                        <div>
-                            <label for="name">Username:</label>
-                            <input type="text" id="name" name="name" th:field="*{name}" required="required" />
-                            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
-                        </div>
-                        <div>
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" th:field="*{email}" required="required" />
-                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
-                        </div>
-                        <div>
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" th:field="*{password}" required="required" />
-                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
-                        </div>
-                    <div><button type="submit" class="btn btn-primary" >Register</button></div>
-        </form>
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+
+
+            <form th:action="@{/register}" method="post" th:object="${person}">
+
+                <h1 class="text-center">Register here</h1>
+                <div class="mb-3">
+                    <label for="InputName" class="form-label">Username</label>
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           th:value="${person.name}"
+                           th:classappend="${#fields.hasErrors('name')? 'is-invalid':''}"
+                           id="InputName"
+                           aria-describedby="emailHelp"/>
+
+                    <div th:each="e : ${#fields.errors('name')}" th:text="${e}" id="validationServer03Feedback" class="invalid-feedback">
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="InputEmail" class="form-label">Email</label>
+                    <input type="email"
+                           name="email"
+                           th:value="${person.email}"
+                           th:classappend="${#fields.hasErrors('email')}? 'is-invalid':''"
+                           class="form-control"
+                           id="InputEmail"/>
+
+                    <div th:each="e : ${#fields.errors('email')}" th:text="${e}" class="invalid-feedback">
+
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputPassword" class="form-label">Password</label>
+                    <input type="password"
+                           name="password"
+                           th:value="${person.password}"
+                           th:classappend="${#fields.hasErrors('password')? 'is-invalid':''}"
+                           class="form-control"
+                           id="InputPassword"/>
+
+                    <div th:each="e : ${#fields.errors('password')}" th:text="${e}" class="invalid-feedback">
+
+                </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        </div>
     </div>
 </div>
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

@@ -1,6 +1,7 @@
 package com.projekt.projekt.Controllers;
 
 import com.projekt.projekt.Validation.Person;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 
 import org.springframework.stereotype.Controller;
@@ -24,13 +25,14 @@ public class ValidationController implements WebMvcConfigurer {
     }
 
     @PostMapping("/register")
-    public String checkPersonInfo(@Validated @ModelAttribute("person") Person person, BindingResult bindingResult) {
+    public String checkPersonInfo(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
 
 
         if (bindingResult.hasErrors()) {
+            System.out.printf(String.valueOf(bindingResult));
             return "register";
         }
-
+        System.out.println(person);
         return "redirect:/login";
     }
 
@@ -42,13 +44,14 @@ public class ValidationController implements WebMvcConfigurer {
     }
 
     @PostMapping("/login")
-    public String checkPerson(@Validated @ModelAttribute("person") Person person, BindingResult bindingResult) {
+    public String checkPerson(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
 
 
         if (bindingResult.hasErrors()) {
+            System.out.printf(String.valueOf(bindingResult));
             return "login";
         }
-
+        System.out.println(person);
         return "redirect:/notes";
     }
 }
