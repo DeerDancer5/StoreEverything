@@ -13,60 +13,36 @@
 <div class="containerEdit">
     <div class="text-center my-3">
         <div class="row">
-            <h1 class="my-3">Edit note</h1>
+            <h1 class="my-3">Add note</h1>
         </div>
-        <div >
-            <form th:action="@{|/notes/edit/newCategory/${id}|}"  method="get" id="addingCategory">
-                <button class="btn btn-success mt-2 my-4"  type="submit" >
-                    New
-                </button>
-                <input type="hidden" name="newCategory" value="true">
-            </form>
-        </div>
-        <form th:action="@{|/notes/edit|}" th:object="${note}" method="post" id="saveForm">
-            <div class="mt-3">Category:</div>
-            <div>
-                <select name="categoryName">
-                    <option th:each="category : ${categoryList}"
-                            th:value="${category.getName()}"
-                            th:selected="(${category.getName()} == ${noteCategory})"
-                            th:text="${category.getName()}">
-                    </option>
-                </select>
-            </div>
 
+        <form th:action="@{|/notes/add|}" th:object="${note}" method="post" id="saveForm">
+            <div class="mt-3">Category:</div>
+
+            <div>
+                <input th:type="text" name="categoryName"/>
+            </div>
             <div class="mt-3">
                 Title:
             </div>
             <div>
-                <input th:type="text" name="title"  th:value="${title}">
+                <input th:type="text" name="title"/>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="mt-3">
                         Note:
                         <div class="EditContent">
-                            <textarea rows="8" cols="40" th:type="textarea"  name="content" th:inline="text">[[${content}]]</textarea>
+                            <textarea rows="8" cols="40" th:type="textarea"  name="content" th:inline="text"></textarea>
                         </div>
                     </div>
                 </div>
             </div>
-            <input type="hidden"  th:value="${note.get().getId()}" name="id"/>
-            <input type="hidden"  th:value="${note.get().getDate()}" name="date"/>
         </form>
 
         <div class="container">
             <div class="row">
-
-                <div class="Editdeletebtn col-md-6"  >
-                    <form th:action="@{|/notes/delete/${note.get().getId()}|}"  method="post">
-                        <button class="btn btn-danger mt-2 my-4"  type="submit">Delete
-                        </button>
-                    </form>
-                </div>
-
-
-                <div class="Editsavebtn col-md-6" >
+                <div class="Editsavebtn col-md-12" th:align="center" >
                     <button class="btn btn-success mt-2 my-4"  type="submit" form="saveForm">
                         Save
                     </button>

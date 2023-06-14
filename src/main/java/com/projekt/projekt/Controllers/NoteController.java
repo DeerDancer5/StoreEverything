@@ -151,6 +151,20 @@ public class NoteController {
 
         return mav;
     }
+    @GetMapping("/edit/newCategory/{id}")
+    public ModelAndView editNoteWithNewCategory(@PathVariable Long id,Optional<String> newCategory) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("editWithNewCategory");
+        Optional<Note> note = noteService.getById(id);
+        List <Category> categoryList = categoryService.getAllCategories();
+        mav.addObject("title",note.get().getTitle());
+        mav.addObject("noteCategory",note.get().getCategory().getName());
+        mav.addObject("date",note.get().dateToString());
+        mav.addObject("content",note.get().getContent());
+        mav.addObject("categoryList",categoryList);
+        mav.addObject("note",note);
+        return mav;
+    }
     @PostMapping("/edit")
     public String saveEdited(Note edited){
         Note note = noteService.getById(edited.getId()).orElseThrow();
@@ -174,15 +188,22 @@ public class NoteController {
     public ModelAndView addNote(@RequestParam Optional <String> newCategory){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("add");
-        boolean isNewCategory=false;
-        if(newCategory.isPresent()) {
-            isNewCategory=true;
-        }
+
         List <Category> categoryList = categoryService.getAllCategories();
         Note note = new Note();
         mav.addObject("note",note);
         mav.addObject("categoryList",categoryList);
-        mav.addObject("isNewCategory",isNewCategory);
+        mav.addObject("redirect","?newCategory=true");
+        return mav;
+    }
+    @GetMapping("/add/newCategory")
+    public ModelAndView addNoteWithNewCategory(@RequestParam Optional <String> newCategory){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("addWithNewCategory");
+        List <Category> categoryList = categoryService.getAllCategories();
+        Note note = new Note();
+        mav.addObject("note",note);
+        mav.addObject("categoryList",categoryList);
         mav.addObject("redirect","?newCategory=true");
         return mav;
     }
@@ -200,6 +221,7 @@ public class NoteController {
         noteService.save(note);
         return "redirect:/notes";
     }
+
     @PostMapping("/delete/{id}")
     public String deleteNote(@PathVariable Long id){
         Note note = noteService.getById(id).orElseThrow();
