@@ -230,11 +230,14 @@ public class NoteController {
         return "redirect:/notes";
     }
     @PostMapping("/add")
-    public String saveAddForm(@Valid Note note, BindingResult bindingResult, Model model){
+    public ModelAndView saveAddForm(@Valid Note note, BindingResult bindingResult){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("notes");
 
         if (bindingResult.hasErrors()) {
-                model.addAttribute("categoryName", categoryService.getByName(note.getCategoryName()));
-            return "add";
+                 mav.setViewName("add");
+                 mav.addObject("categoryName", categoryService.getByName(note.getCategoryName()));
+                 return mav;
         }
 
         if(categoryService.getByName(note.getCategoryName()).isPresent()){
@@ -247,7 +250,7 @@ public class NoteController {
         }
         note.setDate(LocalDateTime.now());
         noteService.save(note);
-        return "redirect:/notes";
+        return mav;
     }
 
     @PostMapping("/delete/{id}")
