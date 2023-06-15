@@ -5,14 +5,17 @@ import com.projekt.projekt.Notes.NoteRequest;
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("notes")
@@ -190,6 +193,7 @@ public class NoteController {
         mav.setViewName("add");
 
         List <Category> categoryList = categoryService.getAllCategories();
+
         Note note = new Note();
         mav.addObject("note",note);
         mav.addObject("categoryList",categoryList);
@@ -207,8 +211,32 @@ public class NoteController {
         mav.addObject("redirect","?newCategory=true");
         return mav;
     }
+    @PostMapping("/add/newCategory")
+    public String checkNewCategory(@Valid Note note, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "addWithNewCategory";
+        }
+        if(categoryService.getByName(note.getCategoryName()).isPresent()){
+            note.setCategory(categoryService.getByName(note.getCategoryName()).orElseThrow());
+        }
+        else {
+            Category category = new Category(note.getCategoryName());
+            categoryService.save(category);
+            note.setCategory(category);
+        }
+        note.setDate(LocalDateTime.now());
+        noteService.save(note);
+        return "redirect:/notes";
+    }
     @PostMapping("/add")
-    public String save(Note note){
+    public String saveAddForm(@Valid Note note, BindingResult bindingResult, Model model){
+
+        if (bindingResult.hasErrors()) {
+                model.addAttribute("categoryName", categoryService.getByName(note.getCategoryName()));
+            return "add";
+        }
+
         if(categoryService.getByName(note.getCategoryName()).isPresent()){
             note.setCategory(categoryService.getByName(note.getCategoryName()).orElseThrow());
         }

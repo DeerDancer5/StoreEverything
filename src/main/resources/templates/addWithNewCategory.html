@@ -10,39 +10,66 @@
 
 <body>
 <div th:insert="~{navbar :: navbar}">  </div>
+
 <div class="containerEdit">
     <div class="text-center my-3">
         <div class="row">
             <h1 class="my-3">Add note</h1>
         </div>
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-md-6 offset-md-3">
 
-        <form th:action="@{|/notes/add|}" th:object="${note}" method="post" id="saveForm">
-            <div class="mt-3">Category:</div>
 
-            <div>
-                <input th:type="text" name="categoryName"/>
-            </div>
-            <div class="mt-3">
-                Title:
-            </div>
-            <div>
-                <input th:type="text" name="title"/>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mt-3">
-                        Note:
-                        <div class="EditContent">
-                            <textarea rows="8" cols="40" th:type="textarea"  name="content" th:inline="text"></textarea>
+                    <form th:action="@{/notes/add/newCategory}" method="post" th:object="${note}" id="saveForm">
+
+                        <div class="mb-3">
+                            <label for="InputCategory" class="form-label">Category</label>
+                            <input type="text"
+                                   name="categoryName"
+                                   th:value="${note.categoryName}"
+                                   th:classappend="${#fields.hasErrors('categoryName')}? 'is-invalid':''"
+                                   class="form-control"
+                                   id="InputCategory"/>
+
+                            <div th:each="e : ${#fields.errors('categoryName')}" th:text="${e}" class="invalid-feedback"></div>
                         </div>
-                    </div>
+
+                        <div class="mb-3">
+                            <label for="InputTitle" class="form-label">Title</label>
+                            <input type="text"
+                                   name="title"
+                                   class="form-control"
+                                   th:value="${note.title}"
+                                   th:classappend="${#fields.hasErrors('title')? 'is-invalid':''}"
+                                   id="InputTitle"
+                                   aria-describedby="emailHelp"/>
+
+                            <div th:each="e : ${#fields.errors('title')}" th:text="${e}" id="validationServer" class="invalid-feedback"></div>
+
+
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="InputContent" class="form-label">Content</label>
+                            <input type="text"
+                                   name="content"
+                                   th:value="${note.content}"
+                                   th:classappend="${#fields.hasErrors('content')}? 'is-invalid':''"
+                                   class="form-control"
+                                   id="InputContent"/>
+
+                            <div th:each="e : ${#fields.errors('content')}" th:text="${e}" class="invalid-feedback"></div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
-        </form>
-
+        </div>
         <div class="container">
             <div class="row">
-                <div class="Editsavebtn col-md-12" th:align="center" >
+                <div class="EditSaveBtn col-md-12" th:align="center" >
                     <button class="btn btn-success mt-2 my-4"  type="submit" form="saveForm">
                         Save
                     </button>

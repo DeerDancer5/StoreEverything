@@ -1,5 +1,8 @@
 package com.projekt.projekt.Notes;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 
 
@@ -9,8 +12,14 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Title can't be empty")
+    @Size(min=2, max=50, message = "Title must be between 2 and 50 characters")
     private String title;
+    @NotBlank(message = "Category can't be empty")
+    @Size(min=2, max=50, message = "Category must be between 2 and 50 characters")
     private String categoryName;
+    @NotBlank(message = "Content can't be empty")
+    @Size(min=2, max=500, message = "Content must be between 2 and 500 characters")
     private String content;
     private LocalDateTime date;
 
