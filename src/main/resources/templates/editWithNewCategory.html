@@ -10,59 +10,89 @@
 
 <body>
 <div th:insert="~{navbar :: navbar}">  </div>
+
 <div class="containerEdit">
   <div class="text-center my-3">
     <div class="row">
-      <h1 class="my-3">Edit note</h1>
+      <h1 class="mt-3">Edit note</h1>
     </div>
 
-    <form th:action="@{|/notes/edit|}" th:object="${note}" method="post" id="saveForm">
-      <div class="mt-3">Category:</div>
+    <div class="container_add">
+      <div class="row mt-3">
+        <div class="col-md-6 offset-md-3">
 
-      <div>
-        <input th:type="text" name="categoryName"/>
-      </div>
-      <div class="mt-3">
-        Title:
-      </div>
-      <div>
-        <input th:type="text" name="title"  th:value="${title}">
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="mt-3">
-            Note:
-            <div class="EditContent">
-              <textarea rows="8" cols="40" th:type="textarea"  name="content" th:inline="text">[[${content}]]</textarea>
+          <form th:action="@{|/notes/edit|}" th:object="${note}" method="post" id="saveForm">
+
+            <div class="mb-3">
+              <label for="InputCategory" class="form-label">Category</label>
+              <input type="text"
+                     name="categoryName"
+                     th:value="${categoryName}"
+                     th:classappend="${#fields.hasErrors('categoryName')}? 'is-invalid':''"
+                     class="form-control"
+                     id="InputCategory"
+                     placeholder="Write a new category name here..."/>
+
+              <div th:each="e : ${#fields.errors('categoryName')}" th:text="${e}" class="invalid-feedback"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="InputTitle" class="form-label">Title</label>
+              <input type="text"
+                     th:value="${title}"
+                     name="title"
+                     class="form-control"
+                     th:classappend="${#fields.hasErrors('title')? 'is-invalid':''}"
+                     id="InputTitle"
+                     placeholder="Write your title here..."/>
+
+              <div th:each="e : ${#fields.errors('title')}" th:text="${e}" id="validationTitle" class="invalid-feedback"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="InputContent" class="form-label">Content</label>
+              <textarea class="form-control input-sm"
+                        th:inline="text"
+                        th:type="textarea"
+                        name="content"
+                        th:classappend="${#fields.hasErrors('content')}? 'is-invalid':''"
+                        id="InputContent"
+                        rows="5"
+                        placeholder="Write your content here..."
+              >[[${content}]]</textarea>
+
+              <div th:each="e : ${#fields.errors('content')}" th:text="${e}" class="invalid-feedback"></div>
+
+            </div>
+
+            <input type="hidden"  th:value="${note.get().getId()}" name="id"/>
+            <input type="hidden"  th:value="${note.get().getDate()}" name="date"/>
+          </form>
+
+
+          <div class="container">
+            <div class="row">
+              <div class="Editdeletebtn col-md-6"  >
+                <form th:action="@{|/notes/delete/${note.get().getId()}|}"  method="post">
+                  <button class="btn btn-danger mt-2 my-4"  type="submit">Delete
+                  </button>
+                </form>
+              </div>
+
+              <div class="Editsavebtn col-md-6" >
+                <button class="btn btn-success mt-2 my-4"  type="submit" form="saveForm">
+                  Save
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <input type="hidden"  th:value="${note.get().getId()}" name="id"/>
-      <input type="hidden"  th:value="${note.get().getDate()}" name="date"/>
-    </form>
-
-    <div class="container">
-      <div class="row">
-
-        <div class="Editdeletebtn col-md-6"  >
-          <form th:action="@{|/notes/delete/${note.get().getId()}|}"  method="post">
-            <button class="btn btn-danger mt-2 my-4"  type="submit">Delete
-            </button>
-          </form>
-        </div>
 
 
-        <div class="Editsavebtn col-md-6" >
-          <button class="btn btn-success mt-2 my-4"  type="submit" form="saveForm">
-            Save
-          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 
 
 
