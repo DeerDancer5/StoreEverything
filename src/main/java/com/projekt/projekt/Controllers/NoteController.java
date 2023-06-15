@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("notes")
@@ -155,7 +154,7 @@ public class NoteController {
         return mav;
     }
     @GetMapping("/edit/newCategory/{id}")
-    public ModelAndView editNoteWithNewCategory(@PathVariable Long id,Optional<String> newCategory) {
+    public ModelAndView editNoteWithNewCategory(@PathVariable Long id) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("editWithNewCategory");
         Optional<Note> note = noteService.getById(id);
@@ -188,7 +187,7 @@ public class NoteController {
         return "redirect:/notes";
     }
     @GetMapping("/add")
-    public ModelAndView addNote(@RequestParam Optional <String> newCategory){
+    public ModelAndView addNote(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("add");
 
@@ -201,7 +200,7 @@ public class NoteController {
         return mav;
     }
     @GetMapping("/add/newCategory")
-    public ModelAndView addNoteWithNewCategory(@RequestParam Optional <String> newCategory){
+    public ModelAndView addNoteWithNewCategory(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("addWithNewCategory");
         List <Category> categoryList = categoryService.getAllCategories();
@@ -211,33 +210,22 @@ public class NoteController {
         mav.addObject("redirect","?newCategory=true");
         return mav;
     }
-    @PostMapping("/add/newCategory")
-    public String checkNewCategory(@Valid Note note, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            return "addWithNewCategory";
-        }
-        if(categoryService.getByName(note.getCategoryName()).isPresent()){
-            note.setCategory(categoryService.getByName(note.getCategoryName()).orElseThrow());
-        }
-        else {
-            Category category = new Category(note.getCategoryName());
-            categoryService.save(category);
-            note.setCategory(category);
-        }
-        note.setDate(LocalDateTime.now());
-        noteService.save(note);
-        return "redirect:/notes";
-    }
     @PostMapping("/add")
-    public ModelAndView saveAddForm(@Valid Note note, BindingResult bindingResult){
+    public ModelAndView saveNewNote(@Valid Note note, BindingResult bindingResult){
         ModelAndView mav = new ModelAndView("redirect:/notes");
 
         if (bindingResult.hasErrors()) {
 
                  ModelAndView tmp = new ModelAndView();
-                 tmp.setViewName("add");
                  tmp.addObject("categoryList", categoryService.getAllCategories());
+                 if(categoryService.getByName((String) bindingResult.getRawFieldValue("categoryName")).isPresent()){
+                     tmp.setViewName("add");
+                 }
+                 else {
+                     tmp.setViewName("addWithNewCategory");
+                 }
+
                  return tmp;
         }
 
