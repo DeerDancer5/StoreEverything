@@ -242,4 +242,8 @@ public class NoteController {
         return "redirect:/notes";
     }
 
+    @GetMapping("/sharedNote")
+    public String Shared() {
+        return "sharedNote";
+    }
 }

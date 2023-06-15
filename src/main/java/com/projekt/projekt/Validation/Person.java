@@ -14,14 +14,14 @@ import lombok.Data;
 public class Person {
 
     @NotBlank(message = "Name can't be empty")
-    @Size(min=2, max=30, message = "Name must be between 2 and 30 characters")
+    @Size(min=3, max=20, message = "Name must be between 3 and 20 characters")
     private String name;
 
     @Pattern(regexp ="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$" , message = "Must be a well-formed email address")
     private String email;
 
     @NotBlank(message = "password is required")
-    @Size(min = 6, max = 50, message = "password length must be at least 6 letters long")
+    @Size(min = 5, message = "password length must be at least 5 letters long")
     private String password;
 
     @Id
