@@ -124,7 +124,6 @@ public class NoteController {
         mav.addObject("startDate", noteRequest.getStartDate());
         mav.addObject("endDate", noteRequest.getEndDate());
         mav.addObject("noteRequest", request);
-
         session.setAttribute("noteRequest",noteRequest);
 
 
@@ -187,10 +186,14 @@ public class NoteController {
         return "redirect:/notes";
     }
     @GetMapping("/add")
-    public ModelAndView addNote(){
+    public ModelAndView addNote(@RequestParam Optional <String> newCategory){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("add");
-
+        if(newCategory.isPresent()){
+            mav.setViewName("addWithNewCategory");
+        }
+        else {
+            mav.setViewName("add");
+        }
         List <Category> categoryList = categoryService.getAllCategories();
 
         Note note = new Note();
@@ -199,17 +202,7 @@ public class NoteController {
         mav.addObject("redirect","?newCategory=true");
         return mav;
     }
-    @GetMapping("/add/newCategory")
-    public ModelAndView addNoteWithNewCategory(){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("addWithNewCategory");
-        List <Category> categoryList = categoryService.getAllCategories();
-        Note note = new Note();
-        mav.addObject("note",note);
-        mav.addObject("categoryList",categoryList);
-        mav.addObject("redirect","?newCategory=true");
-        return mav;
-    }
+
 
     @PostMapping("/add")
     public ModelAndView saveNewNote(@Valid Note note, BindingResult bindingResult){
