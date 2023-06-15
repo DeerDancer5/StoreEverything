@@ -231,13 +231,14 @@ public class NoteController {
     }
     @PostMapping("/add")
     public ModelAndView saveAddForm(@Valid Note note, BindingResult bindingResult){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("notes");
+        ModelAndView mav = new ModelAndView("redirect:/notes");
 
         if (bindingResult.hasErrors()) {
-                 mav.setViewName("add");
-                 mav.addObject("categoryName", categoryService.getByName(note.getCategoryName()));
-                 return mav;
+
+                 ModelAndView tmp = new ModelAndView();
+                 tmp.setViewName("add");
+                 tmp.addObject("categoryList", categoryService.getAllCategories());
+                 return tmp;
         }
 
         if(categoryService.getByName(note.getCategoryName()).isPresent()){
