@@ -30,13 +30,13 @@
                     Category:
                 </div>
                 <form th:action="@{/notes}" th:object="${noteRequest}" th:field="selectedCategory" method="get">
-                <li th:each="category : ${CategoryList}">
-                    <label th:for="${category}" th:text="${category.getName()}" ></label>
-                    <input type="checkbox" th:field="*{selectedCategory}" th:checked="${selectedCategory.contains(category.getName())}" th:value="${category.getName()}"/>
-                </li>
+                    <li th:each="category : ${CategoryList}">
+                        <label th:for="${category}" th:text="${category.getName()}" ></label>
+                        <input type="checkbox" th:field="*{selectedCategory}" th:checked="${selectedCategory.contains(category.getName())}" th:value="${category.getName()}"/>
+                    </li>
                     <div>
-                    <label for="startDate">From:</label>
-                    <input type="date" th:name="startDate" th:value="${startDate}" id="startDate"/>
+                        <label for="startDate">From:</label>
+                        <input type="date" th:name="startDate" th:value="${startDate}" id="startDate"/>
                     </div>
                     <div>
                         <label for="endDate">To:</label>
@@ -163,8 +163,10 @@
 
             </div>
         </div>
+
+    <!--
         <div class="row">
-            <div class="col" th:aligm="left">
+            <div class="col" th:align="left">
                 <a th:if="${page>0}" th:href="@{/notes(sortBy=${sortBy},pageSize=${pageSize},sortDir=${sortDir},page=${page}-1,selectedCategory=${selectedCategory})}">
                     Previous page</a>
             </div>
@@ -175,6 +177,7 @@
             </div>
 
         </div>
+    -->
         </div>
     </div>
 </div>

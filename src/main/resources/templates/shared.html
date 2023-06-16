@@ -24,6 +24,7 @@
             <div class="mb-3">
               <label for="InputCategory" class="form-label">Category</label>
               <input type="text"
+                     th:value="${noteCategory}"
                      readonly
                      name="categoryName"
                      class="form-control"
@@ -35,6 +36,7 @@
               <label for="InputTitle" class="form-label">Title</label>
               <input type="text"
                      readonly
+                     th:value="${title}"
                      name="title"
                      class="form-control"
                      id="InputTitle"
@@ -47,11 +49,14 @@
               <label for="InputContent" class="form-label">Content</label>
               <textarea class="form-control"
                         readonly
+                        th:type="textarea"
+                        th:inline="text"
                         name="content"
                         id="InputContent"
                         rows="5"
-                        placeholder="content..."></textarea>
+                        placeholder="content...">[[${content}]]</textarea>
             </div>
+            <a class="btn btn-primary my-4" href="http://localhost:8080/notes">Powrót</a>
       </div>
     </div>
 
