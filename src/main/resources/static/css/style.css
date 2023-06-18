@@ -119,3 +119,6 @@
     bottom: 0;
     transform: rotate(35deg)
 }
+.legend {
+    font-size: 4pt;
+}

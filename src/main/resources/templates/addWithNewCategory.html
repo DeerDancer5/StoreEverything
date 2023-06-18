@@ -44,7 +44,6 @@
                                    th:value="${note.title}"
                                    th:classappend="${#fields.hasErrors('title')? 'is-invalid':''}"
                                    id="InputTitle"
-                                   aria-describedby="emailHelp"
                                    placeholder="Write your title here..."/>
 
                             <div th:each="e : ${#fields.errors('title')}" th:text="${e}" id="validationServer" class="invalid-feedback"></div>

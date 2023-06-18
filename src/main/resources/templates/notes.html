@@ -30,10 +30,13 @@
                     Category:
                 </div>
                 <form th:action="@{/notes}" th:object="${noteRequest}" th:field="selectedCategory" method="get">
-                    <li th:each="category : ${CategoryList}">
-                        <label th:for="${category}" th:text="${category.getName()}" ></label>
-                        <input type="checkbox" th:field="*{selectedCategory}" th:checked="${selectedCategory.contains(category.getName())}" th:value="${category.getName()}"/>
-                    </li>
+                    <fieldset class="fieldset">
+                        <li th:each="category : ${CategoryList}" >
+                            <label  th:for="${category}" th:text="${category.getName()}" ></label>
+                            <input th:id="${category}" type="checkbox" th:field="*{selectedCategory}" th:checked="${selectedCategory.contains(category.getName())}" th:value="${category.getName()}"/>
+                        </li>
+                        <legend></legend>
+                    </fieldset>
                     <div>
                         <label for="startDate">From:</label>
                         <input type="date" th:name="startDate" th:value="${startDate}" id="startDate"/>
@@ -69,23 +72,22 @@
                 <form th:action="@{/notes}" th:object="${noteRequest}" method="get">
 
                     <div class="col-md-12" th:align="left">
-
-                        <div>Sort by:
-                            <select name="sortBy">
+                    <fieldset>
+                        <div>
+                            <label for="SelectSort" class="form label">Sort by:</label>
+                            <select name="sortBy" id="SelectSort">
                                 <option th:each="choice : ${SortOptions}"
                                         th:value="${choice}"
                                         th:selected="(${choice.toLowerCase()} == ${sortBy})"
                                         th:text="${choice}">
                                 </option>
                             </select>
-                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" th:checked="${sortDir.contains('asc')}" th:name="sortDir" id="option1" value="asc">
-                                <label class="form-check-label" for="option1">Ascending</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" th:name="sortDir" th:checked="${sortDir.contains('desc')}" id="option2" value="desc">
-                                <label class="form-check-label" for="option2">Descending</label>
-                            </div>
+                                        <label class="form-check-label" for="option1">Ascending</label>
+
+                                        <input class="form-check-input" type="radio" th:name="sortDir" th:checked="${sortDir.contains('desc')}" id="option2" value="desc">
+                                        <label class="form-check-label" for="option2">Descending</label>
+
                             <input type="hidden"  th:value="${page}" th:name="page"/>
                             <input type="hidden"  th:value="${pageSize}" th:name="pageSize"/>
                             <input type="hidden"  th:value="${selectedCategory}" th:name="selectedCategory"/>
@@ -94,6 +96,8 @@
 
                             <input type="submit"  value="Sort"/>
                         </div>
+                        <legend></legend>
+                    </fieldset>
                     </div>
                 </form>
             <div class="col">
@@ -114,7 +118,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Category</th>
                     <th scope="col">Date</th>
-                    <th scope="col"></th>
+                    <th scope="col">Edit</th>
 
 
                 </tr>
@@ -141,8 +145,8 @@
             <div class="col">
                 <form th:action="@{/notes}" th:object="${noteRequest}" method="get">
 
-                    <p>Items per page:
-                        <select name="pageSize">
+                    <label for="itemsPerPage" class="form control">Items per page:</label>
+                        <select name="pageSize" id="itemsPerPage">
                             <option th:value="${NumberOfElements}" th:text="all"></option>
                             <option th:each="choice : ${SizeOptions}"
                                     th:value="${choice}"
@@ -158,7 +162,6 @@
                         <input type="hidden"  th:value="${startDate}" th:name="startDate">
                         <input type="hidden"  th:value="${endDate}" th:name="endDate">
                         <input type="submit"  value="Change"/>
-                    </p>
                 </form>
 
             </div>

@@ -22,9 +22,9 @@
         <div class="row mt-3">
           <div class="col-md-6 offset-md-3">
 
-              <div>Category</div>
+              <label for="CategoryAdd">Category</label>
               <div>
-                <select name="categoryName" form="saveForm">
+                <select name="categoryName" form="saveForm" id="CategoryAdd">
                   <option th:each="category : ${categoryList}"
                           th:value="${category.getName()}"
                           th:selected="(${category.getName()} == ${noteCategory})"

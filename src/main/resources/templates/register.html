@@ -25,10 +25,9 @@
                            class="form-control"
                            th:value="${person.name}"
                            th:classappend="${#fields.hasErrors('name')? 'is-invalid':''}"
-                           id="InputName"
-                           aria-describedby="emailHelp"/>
+                           id="InputName"/>
 
-                    <div th:each="e : ${#fields.errors('name')}" th:text="${e}" id="validationServer03Feedback" class="invalid-feedback">
+                    <div th:each="e : ${#fields.errors('name')}" th:text="${e}" class="invalid-feedback">
 
                     </div>
 
@@ -38,7 +37,7 @@
 
                 <div class="mb-3">
                     <label for="InputEmail" class="form-label">Email</label>
-                    <input type="email"
+                    <input type="text"
                            name="email"
                            th:value="${person.email}"
                            th:classappend="${#fields.hasErrors('email')}? 'is-invalid':''"

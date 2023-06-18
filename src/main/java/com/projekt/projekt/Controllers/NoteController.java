@@ -253,28 +253,14 @@ public class NoteController {
         List <Category> categoryList = categoryService.getAllCategories();
         mav.addObject("title",note.get().getTitle());
         mav.addObject("noteCategory",note.get().getCategory().getName());
-        mav.addObject("date",note.get().dateToString());
         mav.addObject("content",note.get().getContent());
-        mav.addObject("categoryList",categoryList);
-        mav.addObject("note",note);
 
         return mav;
     }
 
     @PostMapping("/shared")
-    public String sharedNote(Note shared){
-        Note note = noteService.getById(shared.getId()).orElseThrow();
-        note.setTitle(shared.getTitle());
-        note.setContent(shared.getContent());
+    public String sharedNote(){
 
-        if(categoryService.getByName(shared.getCategoryName()).isPresent()){
-            note.setCategory(categoryService.getByName(shared.getCategoryName()).orElseThrow());
-        }
-        else {
-            Category category = new Category(shared.getCategoryName());
-            categoryService.save(category);
-            note.setCategory(category);
-        }
         return "redirect:/notes";
     }
 }

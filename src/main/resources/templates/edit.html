@@ -20,9 +20,9 @@
         <div class="row mt-3">
             <div class="col-md-6 offset-md-3">
 
-                <p>Category</p>
+                <label for="selectCategory" class="form label">Category</label>
                 <div>
-                    <select name="categoryName" form="saveForm">
+                    <select name="categoryName" form="saveForm" id="selectCategory">
                         <option th:each="category : ${categoryList}"
                                 th:value="${category.getName()}"
                                 th:selected="(${category.getName()} == ${noteCategory})"
