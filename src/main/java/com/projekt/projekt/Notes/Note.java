@@ -1,4 +1,5 @@
 package com.projekt.projekt.Notes;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,6 +22,8 @@ public class Note {
     @NotBlank(message = "Content can't be empty")
     @Size(min=5, max=500, message = "Content must be between 5 and 500 characters")
     private String content;
+    @Nullable
+    private String www;
     private LocalDateTime date;
 
 
@@ -98,6 +101,23 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Nullable
+    public String getWww() {
+        return www;
+    }
+    @Nullable
+    public String getShortenedWww() {
+        if(www!=null&&www.length()>15) {
+
+            return www.substring(0,15)+"...";
+        }
+        return www;
+    }
+
+    public void setWww(@Nullable String www) {
+        this.www = www;
     }
 }
 
