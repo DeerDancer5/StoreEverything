@@ -145,6 +145,7 @@ public class NoteController {
         mav.addObject("title",note.get().getTitle());
         mav.addObject("noteCategory",note.get().getCategory().getName());
         mav.addObject("date",note.get().dateToString());
+        mav.addObject("www",note.get().getWww());
         mav.addObject("content",note.get().getContent());
         mav.addObject("categoryList",categoryList);
         mav.addObject("note",note);
@@ -161,6 +162,7 @@ public class NoteController {
         mav.addObject("title",note.get().getTitle());
         mav.addObject("noteCategory",note.get().getCategory().getName());
         mav.addObject("date",note.get().dateToString());
+        mav.addObject("www",note.get().getWww());
         mav.addObject("content",note.get().getContent());
         mav.addObject("categoryList",categoryList);
         mav.addObject("note",note);

@@ -40,13 +40,25 @@
               <label for="InputTitle" class="form-label">Title</label>
               <input type="text"
                      th:value="${title}"
-                     name="title"
+                     name="www"
                      class="form-control"
                      th:classappend="${#fields.hasErrors('title')? 'is-invalid':''}"
                      id="InputTitle"
                      placeholder="Write your title here..."/>
 
               <div th:each="e : ${#fields.errors('title')}" th:text="${e}" id="validationTitle" class="invalid-feedback"></div>
+            </div>
+            <div class="mb-3">
+              <label for="InputLink" class="form-label">WWW</label>
+              <input type="text"
+                     th:value="${www}"
+                     name="title"
+                     class="form-control"
+
+                     id="InputLink"
+                     placeholder="Write your link here..."/>
+
+              <div ></div>
             </div>
 
             <div class="mb-3">
