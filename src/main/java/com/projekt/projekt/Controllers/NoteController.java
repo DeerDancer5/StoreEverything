@@ -133,13 +133,12 @@ public class NoteController {
     }
     @GetMapping("/edit/{id}")
     public ModelAndView editNote(@PathVariable Long id,Optional<String> newCategory) {
+
         ModelAndView mav = new ModelAndView();
         mav.setViewName("edit");
-        boolean isNewCategory=false;
-        if(newCategory.isPresent()) {
-            isNewCategory=true;
-        }
+
         Optional<Note> note = noteService.getById(id);
+
 
         List <Category> categoryList = categoryService.getAllCategories();
         mav.addObject("title",note.get().getTitle());
@@ -149,7 +148,6 @@ public class NoteController {
         mav.addObject("content",note.get().getContent());
         mav.addObject("categoryList",categoryList);
         mav.addObject("note",note);
-        mav.addObject("isNewCategory",isNewCategory);
 
         return mav;
     }
@@ -169,10 +167,30 @@ public class NoteController {
         return mav;
     }
     @PostMapping("/edit")
-    public String saveEdited(Note edited){
+    public ModelAndView saveEdited(@Valid Note edited, BindingResult bindingResult){
+        ModelAndView mav = new ModelAndView("redirect:/notes");
+        if (bindingResult.hasErrors()) {
+            System.out.println("blad");
+            ModelAndView tmp = new ModelAndView();
+            tmp.addObject("categoryList", categoryService.getAllCategories());
+            Optional<Note> note = noteService.getById(edited.getId());
+
+            tmp.addObject("title", bindingResult.getFieldValue("title"));
+            tmp.addObject("noteCategory",edited.getCategoryName());
+            tmp.addObject("date",bindingResult.getFieldValue("date"));
+            tmp.addObject("www",bindingResult.getFieldValue("www"));
+            tmp.addObject("content",bindingResult.getFieldValue("content"));
+            tmp.addObject("note",note);
+            //String redirect = "redirect:edit/"+edited.getId();
+            tmp.setViewName("edit");
+
+            return tmp;
+        }
         Note note = noteService.getById(edited.getId()).orElseThrow();
         note.setTitle(edited.getTitle());
         note.setContent(edited.getContent());
+        note.setWww(edited.getWww());
+
 
         if(categoryService.getByName(edited.getCategoryName()).isPresent()){
             note.setCategory(categoryService.getByName(edited.getCategoryName()).orElseThrow());
@@ -183,9 +201,9 @@ public class NoteController {
             note.setCategory(category);
         }
 
-
+        note.setCategoryName(note.getCategory().getName());
         noteService.save(note);
-        return "redirect:/notes";
+        return mav;
     }
     @GetMapping("/add")
     public ModelAndView addNote(@RequestParam Optional <String> newCategory){
