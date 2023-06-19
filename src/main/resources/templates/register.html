@@ -15,7 +15,7 @@
         <div class="col-md-6 offset-md-3">
 
 
-            <form th:action="@{/register}" method="post" th:object="${person}">
+            <form th:action="@{/register}" method="post" th:object="${user}">
 
                 <h1 class="text-center">Register here</h1>
                 <div class="mb-3">
@@ -23,7 +23,7 @@
                     <input type="text"
                            name="name"
                            class="form-control"
-                           th:value="${person.name}"
+                           th:value="${user.name}"
                            th:classappend="${#fields.hasErrors('name')? 'is-invalid':''}"
                            id="InputName"/>
 
@@ -39,7 +39,7 @@
                     <label for="InputEmail" class="form-label">Email</label>
                     <input type="text"
                            name="email"
-                           th:value="${person.email}"
+                           th:value="${user.email}"
                            th:classappend="${#fields.hasErrors('email')}? 'is-invalid':''"
                            class="form-control"
                            id="InputEmail"/>
@@ -53,7 +53,7 @@
                     <label for="InputPassword" class="form-label">Password</label>
                     <input type="password"
                            name="password"
-                           th:value="${person.password}"
+                           th:value="${user.password}"
                            th:classappend="${#fields.hasErrors('password')? 'is-invalid':''}"
                            class="form-control"
                            id="InputPassword"/>
