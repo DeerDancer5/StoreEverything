@@ -178,6 +178,11 @@ public class NoteController {
         if (bindingResult.hasErrors()) {
             System.out.println("blad");
             ModelAndView tmp = new ModelAndView();
+            tmp.setViewName("edit");
+            if(!categoryService.getByName(edited.getCategoryName()).isPresent()){
+                tmp.setViewName("editWithNewCategory");
+            }
+
             tmp.addObject("categoryList", categoryService.getAllCategories());
             Optional<Note> note = noteService.getById(edited.getId());
 
@@ -188,7 +193,7 @@ public class NoteController {
             tmp.addObject("content",bindingResult.getFieldValue("content"));
             tmp.addObject("note",note);
             //String redirect = "redirect:edit/"+edited.getId();
-            tmp.setViewName("edit");
+
 
             return tmp;
         }
@@ -225,6 +230,7 @@ public class NoteController {
         Note note = new Note();
         mav.addObject("note",note);
         mav.addObject("categoryList",categoryList);
+        mav.addObject("noteCategory",new String());
         mav.addObject("redirect","?newCategory=true");
         return mav;
     }
@@ -302,6 +308,6 @@ public class NoteController {
     @GetMapping("/adminPage")
     public String AdminPage()
     {
-        return "adminPage.html";
+        return "adminPage";
     }
 }
