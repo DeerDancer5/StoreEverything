@@ -31,7 +31,7 @@
                     </select>
 
                     <div>
-                        <form th:action="@{|/notes/edit/newCategory/${id}|}"  method="get" id="addingCategory">
+                        <form th:action="@{|/notes/edit/${id}?newCategory=true|}"  method="get" id="addingCategory">
                             <button class="btn btn-info mt-2 my-4"  type="submit" >
                                 New category
                             </button>
@@ -104,9 +104,22 @@
                     </button>
                 </div>
             </div>
-        </div>
-
-
+        </div>  <div th:if="${!sharing}">
+                <form th:action="@{|/notes/edit/${id}?share=true|}"  method="get" >
+                    <button class="btn btn-info mt-2 my-4"  type="submit" >
+                        Share
+                    </button>
+                    <input type="hidden" name="share" value="true">
+                </form></div>
+                <div th:if="${sharing}">
+                    <div class="mb-3">
+                        <label for="ShareLink" class="form-label">Link to share</label>
+                        <input type="text"
+                               th:value="${shareLink}"
+                               class="form-control"
+                               id="ShareLink"
+                              />
+                </div>
         </div>
         </div>
         </div>

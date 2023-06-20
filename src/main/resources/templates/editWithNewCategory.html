@@ -27,7 +27,7 @@
               <label for="InputCategory" class="form-label">Category</label>
               <input type="text"
                      name="categoryName"
-                     th:value="${categoryName}"
+                     th:value="${noteCategory}"
                      th:classappend="${#fields.hasErrors('categoryName')}? 'is-invalid':''"
                      class="form-control"
                      id="InputCategory"

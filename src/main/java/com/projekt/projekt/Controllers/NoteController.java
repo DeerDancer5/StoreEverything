@@ -145,14 +145,23 @@ public class NoteController {
         return mav;
     }
     @GetMapping("/edit/{id}")
-    public ModelAndView editNote(@PathVariable Long id,Optional<String> newCategory) {
+    public ModelAndView editNote(@PathVariable Long id,Optional<String> newCategory,Optional<String> share) {
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("edit");
+        if(newCategory.isPresent()){
+            mav.setViewName("editWithNewCategory");
+        }
 
         Optional<Note> note = noteService.getById(id);
 
+        boolean sharing=false;
+        if(share.isPresent()){
+            sharing=true;
 
+            String shareLink = "localhost:8080/notes/shared/"+note.get().getId();
+            mav.addObject("shareLink",shareLink);
+        }
         List <Category> categoryList = categoryService.getAllCategories();
         mav.addObject("title",note.get().getTitle());
         mav.addObject("noteCategory",note.get().getCategory().getName());
@@ -161,24 +170,12 @@ public class NoteController {
         mav.addObject("content",note.get().getContent());
         mav.addObject("categoryList",categoryList);
         mav.addObject("note",note);
+        mav.addObject("sharing",sharing);
+
 
         return mav;
     }
-    @GetMapping("/edit/newCategory/{id}")
-    public ModelAndView editNoteWithNewCategory(@PathVariable Long id) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("editWithNewCategory");
-        Optional<Note> note = noteService.getById(id);
-        List <Category> categoryList = categoryService.getAllCategories();
-        mav.addObject("title",note.get().getTitle());
-        mav.addObject("noteCategory",note.get().getCategory().getName());
-        mav.addObject("date",note.get().dateToString());
-        mav.addObject("www",note.get().getWww());
-        mav.addObject("content",note.get().getContent());
-        mav.addObject("categoryList",categoryList);
-        mav.addObject("note",note);
-        return mav;
-    }
+
     @PostMapping("/edit")
     public ModelAndView saveEdited(@Valid Note edited, BindingResult bindingResult){
         ModelAndView mav = new ModelAndView("redirect:/notes");
