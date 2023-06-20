@@ -1,17 +1,17 @@
 package com.projekt.projekt.Validation;
-
-
+import com.projekt.projekt.Notes.Note;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.service.annotation.PatchExchange;
 
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
@@ -65,6 +65,12 @@ public class User implements UserDetails {
         this.roles = roles;
         this.age = age;
     }
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Note> notes = new ArrayList<>();
 
     public String getFirstname() {
         return firstname;

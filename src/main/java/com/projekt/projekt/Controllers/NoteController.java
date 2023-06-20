@@ -2,6 +2,7 @@ package com.projekt.projekt.Controllers;
 import com.projekt.projekt.Notes.Category;
 import com.projekt.projekt.Notes.Note;
 import com.projekt.projekt.Notes.NoteRequest;
+import com.projekt.projekt.Repositories.UserRepository;
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
 import com.projekt.projekt.Validation.User;
@@ -30,6 +31,8 @@ public class NoteController {
     private NoteService noteService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    UserRepository userRepository;
 
 
     @GetMapping()
@@ -56,10 +59,11 @@ public class NoteController {
     public ModelAndView addNewParameters(ModelAndView mav){
         LocalDate startDate = noteService.dateFromString(noteService.getEarliestDate()).toLocalDate();
         LocalDate endDate = LocalDate.now();
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
         Page <Note> notes = noteService.getNotesPage(0,10,
                 "date","desc", "",
-                startDate,endDate);
+                startDate,endDate,userName);
         List <Category> categoryList = categoryService.getAllCategories();
         Collections.sort(categoryList);
         List<String> sortOptions = noteService.getSortOptions();
@@ -82,7 +86,7 @@ public class NoteController {
         mav.addObject("sortBy","date");
         mav.addObject("sortDir","desc");
         mav.addObject("noteRequest",new NoteRequest());
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         System.out.println(auth.getName());
 
 
@@ -94,7 +98,8 @@ public class NoteController {
     public ModelAndView addRequestedParameters(ModelAndView mav, NoteRequest noteRequest, HttpSession session){
 
         String category = null;
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
         if (noteRequest.getSortBy().equals("--")) {
             noteRequest.setSortBy("id");
         }
@@ -107,7 +112,7 @@ public class NoteController {
         System.out.println("end date: " + noteRequest.getEndDate().toString());
 
         Page<Note> notes = noteService.getNotesPage(Integer.parseInt(noteRequest.getPage()), Integer.parseInt(noteRequest.getPageSize()),
-                noteRequest.getSortBy(), noteRequest.getSortDir(), category, noteRequest.getStartDate(), noteRequest.getEndDate());
+                noteRequest.getSortBy(), noteRequest.getSortDir(), category, noteRequest.getStartDate(), noteRequest.getEndDate(),userName);
         List<Category> categoryList = categoryService.getAllCategories();
         Collections.sort(categoryList);
         List<String> sortOptions = noteService.getSortOptions();
@@ -215,6 +220,10 @@ public class NoteController {
         }
 
         note.setCategoryName(note.getCategory().getName());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
+        Optional<User> user = userRepository.findByUsername(userName);
+        note.setUser(user.get());
         noteService.save(note);
         return mav;
     }
@@ -265,7 +274,12 @@ public class NoteController {
             categoryService.save(category);
             note.setCategory(category);
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
+        Optional<User> user = userRepository.findByUsername(userName);
+        note.setUser(user.get());
         note.setDate(LocalDateTime.now());
+
         noteService.save(note);
         return mav;
     }
@@ -290,6 +304,7 @@ public class NoteController {
         mav.addObject("www",note.get().getWww());
         mav.addObject("noteCategory",note.get().getCategory().getName());
         mav.addObject("content",note.get().getContent());
+        mav.addObject("userName",note.get().getUser().getUsername());
 
         return mav;
     }

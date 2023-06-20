@@ -25,13 +25,14 @@ public class NoteService {
            String sortDir,
            String category,
            LocalDate startDate,
-           LocalDate endDate
+           LocalDate endDate,
+           String userName
     ) {
         Direction d = Direction.ASC;
         if(sortDir.equals("desc")) {
             d = Direction.DESC;
         }
-        Page <Note> notesPage = getResults(category,page,pageSize,d,sortBy.toLowerCase(),sortDir,startDate,endDate);
+        Page <Note> notesPage = getResults(category,page,pageSize,d,sortBy.toLowerCase(),sortDir,startDate,endDate,userName);
         updateCategoryNames(notesPage);
         return notesPage;
 
@@ -60,29 +61,29 @@ public class NoteService {
         return sizes;
     }
     private Page <Note> getResults(String category,int page,int pageSize,Direction d,String sortBy,String sortDir,LocalDate startDate,
-                                   LocalDate endDate){
+                                   LocalDate endDate, String userName){
 
         Pageable pageable = PageRequest.of(page,pageSize,d,sortBy);
         LocalDateTime start = startDate.atStartOfDay();
         LocalDateTime end = endDate.atTime(23,59,59);
-        Page<Note> notesPage = noteRepository.filterNotesByDate(start,end,pageable);
+        Page<Note> notesPage = noteRepository.filterNotesByDate(start,end,pageable,userName);
         String split[];
 
         if(category.length()>0) {
 
             split = category.split(",");
-            notesPage=noteRepository.filterNotesByCategory(split,start,end,pageable);
+            notesPage=noteRepository.filterNotesByCategory(split,start,end,pageable,userName);
         }
 
         if(sortBy.equals("category")) {
             List<Note> filtered = notesPage.getContent();
 
             if(sortDir.toLowerCase().equals("asc")) {
-                notesPage = noteRepository.sortNotesByCategoryPopularityAsc(filtered,start,end,pageable);
+                notesPage = noteRepository.sortNotesByCategoryPopularityAsc(filtered,start,end,pageable,userName);
             }
 
             else if(sortDir.toLowerCase().equals("desc")) {
-                notesPage = noteRepository.sortNotesByCategoryPopularityDesc(filtered,start,end,pageable);
+                notesPage = noteRepository.sortNotesByCategoryPopularityDesc(filtered,start,end,pageable,userName);
             }
         }
 

@@ -1,4 +1,5 @@
 package com.projekt.projekt.Notes;
+import com.projekt.projekt.Validation.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +32,10 @@ public class Note {
     @JoinColumn(name="category_id")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -39,11 +44,12 @@ public class Note {
         this.date = date;
     }
 
-    public Note(String title, String content, LocalDateTime date, Category category) {
+    public Note(String title, String content, LocalDateTime date, Category category,User user) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.category = category;
+        this.user = user;
 
     }
 
@@ -101,6 +107,14 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Nullable
