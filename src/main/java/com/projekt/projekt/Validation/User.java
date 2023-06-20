@@ -19,7 +19,6 @@ import java.util.List;
 public class User implements UserDetails {
     @NotBlank(message = "Name can't be empty")
     @Size(min=3, max=20, message = "Name must be between 3 and 20 characters")
-    @Dictionary
     private String username;
 
     @Pattern(regexp ="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$" , message = "Must be a well-formed email address")

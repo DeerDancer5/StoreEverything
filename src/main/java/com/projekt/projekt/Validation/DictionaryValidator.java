@@ -5,6 +5,10 @@ import com.projekt.projekt.Notes.Category;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.Validator;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
 
 public class DictionaryValidator implements ConstraintValidator<Dictionary, String> {
     private String categoryPrefix;
@@ -14,16 +18,25 @@ public class DictionaryValidator implements ConstraintValidator<Dictionary, Stri
         categoryPrefix = dictionary.value();
     }
     @Override
-    public boolean isValid(String dict, ConstraintValidatorContext constraintValidatorContext)
+    public boolean isValid(String categoryName, ConstraintValidatorContext constraintValidatorContext)
     {
         boolean result;
 
-        if(dict != null)
+        if(categoryName != null)
         {
-            result = dict.contains(categoryPrefix);
+            RestTemplate restTemplate = new RestTemplate();
+
+            ResponseEntity<String[]> response =
+                    restTemplate.getForEntity(
+                            "http://localhost:8080/category/categoryList",
+                            String[].class);
+            String[] slownik = response.getBody();
+           result = (Arrays.asList(slownik).contains(categoryName));
+            System.out.println(categoryName);
+
         }
         else {
-            result = true;
+            result = false;
         }
         return result;
     }

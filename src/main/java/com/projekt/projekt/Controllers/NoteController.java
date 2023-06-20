@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -89,6 +91,17 @@ public class NoteController {
 
         System.out.println(auth.getName());
 
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String[]> response =
+                restTemplate.getForEntity(
+                        "http://localhost:8080/category/categoryList",
+                        String[].class);
+        String[] slownik = response.getBody();
+        if(Arrays.asList(slownik).contains("filmy")){
+            System.out.println("tak");
+        }
 
 
 

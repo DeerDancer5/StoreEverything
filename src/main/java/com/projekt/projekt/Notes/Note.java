@@ -1,7 +1,10 @@
 package com.projekt.projekt.Notes;
+import com.projekt.projekt.Validation.Dictionary;
+import com.projekt.projekt.Validation.DictionaryValidator;
 import com.projekt.projekt.Validation.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.Constraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -17,6 +20,7 @@ public class Note {
     @NotBlank(message = "Title can't be empty")
     @Size(min=3, max=20, message = "Title must be between 3 and 20 characters")
     private String title;
+    @Dictionary
     @NotBlank(message = "Category can't be empty")
     @Size(min=2, max=50, message = "Category must be between 2 and 50 characters")
     private String categoryName;

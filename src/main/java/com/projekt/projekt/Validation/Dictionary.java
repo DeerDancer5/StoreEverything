@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 import java.util.List;
 
 @Constraint(validatedBy = DictionaryValidator.class)
-@Target({ElementType.METHOD, ElementType.FIELD})
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Dictionary {
     public String value() default "tak";
