@@ -237,6 +237,7 @@ public class NoteController {
 
                  ModelAndView tmp = new ModelAndView();
                  tmp.addObject("categoryList", categoryService.getAllCategories());
+                 tmp.addObject("noteCategory", note.getCategoryName());
                  if(categoryService.getByName((String) bindingResult.getRawFieldValue("categoryName")).isPresent()){
                      tmp.setViewName("add");
                  }
@@ -275,8 +276,9 @@ public class NoteController {
 
         Optional<Note> note = noteService.getById(id);
 
-        List <Category> categoryList = categoryService.getAllCategories();
+
         mav.addObject("title",note.get().getTitle());
+        mav.addObject("www",note.get().getWww());
         mav.addObject("noteCategory",note.get().getCategory().getName());
         mav.addObject("content",note.get().getContent());
 

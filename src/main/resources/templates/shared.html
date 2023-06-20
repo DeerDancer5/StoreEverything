@@ -43,6 +43,17 @@
                      aria-describedby="emailHelp"
                      placeholder="title..."/>
             </div>
+            <div class="mb-3">
+                <label for="InputLink" class="form-label">WWW</label>
+                <input type="text"
+                       readonly
+                       th:value="${www}"
+                       name="www"
+                       class="form-control"
+                       id="InputLink"
+                       aria-describedby="emailHelp"
+                       placeholder="www..."/>
+            </div>
 
 
             <div class="mb-3">
@@ -56,7 +67,7 @@
                         rows="5"
                         placeholder="content...">[[${content}]]</textarea>
             </div>
-            <a class="btn btn-primary my-4" href="http://localhost:8080/notes">Powrót</a>
+      <!--      <a class="btn btn-primary my-4" href="http://localhost:8080/notes">Powrót</a> -->
       </div>
     </div>
 
