@@ -14,7 +14,8 @@
 <div class="containerEdit">
   <div class="text-center my-3">
     <div class="row">
-      <h1 class="mt-3">Note by  </h1>
+        <h1>Note shared by</h1>
+      <h1 th:text="${userName}" class="mt-1">  </h1>
     </div>
 
     <div class="container_add_category">
@@ -26,6 +27,7 @@
               <input type="text"
                      th:value="${noteCategory}"
                      readonly
+                     disabled
                      name="categoryName"
                      class="form-control"
                      id="InputCategory"

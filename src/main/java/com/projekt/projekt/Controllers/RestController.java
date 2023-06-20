@@ -12,28 +12,28 @@ import java.util.List;
 @RequestMapping("/category")
 public class RestController {
     @GetMapping("/categoryList")
-    public List<Category> getsCategory(){
-        List<Category> CatList = new ArrayList<>();
-        CatList.add(new Category("sport"));
-        CatList.add(new Category("lotnictwo"));
-        CatList.add(new Category("muzyka"));
-        CatList.add(new Category("plywanie"));
-        CatList.add(new Category("motoryzacja"));
-        CatList.add(new Category("spotkanie"));
-        CatList.add(new Category("linux"));
-        CatList.add(new Category("komputery"));
-        CatList.add(new Category("technologie"));
-        CatList.add(new Category("podrozowanie"));
-        CatList.add(new Category("przypomnienie"));
-        CatList.add(new Category("uczelnia"));
-        CatList.add(new Category("dom"));
-        CatList.add(new Category("gry"));
-        CatList.add(new Category("jedzenie"));
-        CatList.add(new Category("egzamin"));
-        CatList.add(new Category("programowanie"));
-        CatList.add(new Category("filmy"));
-        CatList.add(new Category("ksiazki"));
-        CatList.add(new Category("sztuka"));
+    public List<String> getsCategory(){
+        List<String> CatList = new ArrayList<>();
+        CatList.add(new String("sport"));
+        CatList.add(new String("lotnictwo"));
+        CatList.add(new String("muzyka"));
+        CatList.add(new String("plywanie"));
+        CatList.add(new String("motoryzacja"));
+        CatList.add(new String("spotkanie"));
+        CatList.add(new String("linux"));
+        CatList.add(new String("komputery"));
+        CatList.add(new String("technologie"));
+        CatList.add(new String("podrozowanie"));
+        CatList.add(new String("przypomnienie"));
+        CatList.add(new String("uczelnia"));
+        CatList.add(new String("dom"));
+        CatList.add(new String("gry"));
+        CatList.add(new String("jedzenie"));
+        CatList.add(new String("egzamin"));
+        CatList.add(new String("programowanie"));
+        CatList.add(new String("filmy"));
+        CatList.add(new String("ksiazki"));
+        CatList.add(new String("sztuka"));
 
         return CatList;
     }
