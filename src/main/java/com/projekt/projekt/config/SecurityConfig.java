@@ -25,8 +25,8 @@ public class SecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
-                .requestMatchers("/homepage","/notes/shared/**","/h2-console/**"
-                        ,"/notes/edit/**","/notes/add/**","/notes/**","/addUser/**","/","/css/**","/category/**")
+                .requestMatchers("/homepage","/notes/shared/**","/h2-console/**",
+                        "/addUser/**","/","/css/**","/category/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
