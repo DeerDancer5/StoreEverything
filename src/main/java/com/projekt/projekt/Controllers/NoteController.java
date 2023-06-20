@@ -7,12 +7,13 @@ import com.projekt.projekt.Services.NoteService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDate;
@@ -287,5 +288,18 @@ public class NoteController {
     public String sharedNote(){
 
         return "redirect:/notes";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder)
+    {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
+
+    @GetMapping("/adminPage")
+    public String AdminPage()
+    {
+        return "adminPage.html";
     }
 }
