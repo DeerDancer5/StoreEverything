@@ -13,7 +13,6 @@ import java.util.List;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Dictionary {
-    public String value() default "tak";
     public String message() default "Must be a word from a dictionary";
     public Class<?>[] groups() default {};
     public Class<? extends Payload>[] payload() default {};

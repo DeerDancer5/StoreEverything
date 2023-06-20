@@ -11,12 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 
 public class DictionaryValidator implements ConstraintValidator<Dictionary, String> {
-    private String categoryPrefix;
 
-    @Override
-    public void initialize(Dictionary dictionary){
-        categoryPrefix = dictionary.value();
-    }
     @Override
     public boolean isValid(String categoryName, ConstraintValidatorContext constraintValidatorContext)
     {

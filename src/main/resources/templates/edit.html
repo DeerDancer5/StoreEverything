@@ -20,6 +20,24 @@
         <div class="row mt-3">
             <div class="col-md-6 offset-md-3">
 
+                <div th:if="${!sharing}">
+                    <form th:action="@{|/notes/edit/${id}?share=true|}"  method="get" >
+                        <button class="btn btn-info mt-2 my-4"  type="submit" >
+                            Share
+                        </button>
+                        <input type="hidden" name="share" value="true">
+                    </form></div>
+                <div th:if="${sharing}">
+                    <div class="mb-3">
+                        <label for="ShareLink" class="form-label">Link to share</label>
+                        <input type="text"
+                               th:value="${shareLink}"
+                               class="form-control"
+                               id="ShareLink"
+                        />
+                    </div>
+                </div>
+
                 <label for="selectCategory" class="form label">Category</label>
                 <div>
                     <select name="categoryName" form="saveForm" id="selectCategory">
@@ -104,23 +122,7 @@
                     </button>
                 </div>
             </div>
-        </div>  <div th:if="${!sharing}">
-                <form th:action="@{|/notes/edit/${id}?share=true|}"  method="get" >
-                    <button class="btn btn-info mt-2 my-4"  type="submit" >
-                        Share
-                    </button>
-                    <input type="hidden" name="share" value="true">
-                </form></div>
-                <div th:if="${sharing}">
-                    <div class="mb-3">
-                        <label for="ShareLink" class="form-label">Link to share</label>
-                        <input type="text"
-                               th:value="${shareLink}"
-                               class="form-control"
-                               id="ShareLink"
-                              />
-                </div>
-                </div>
+        </div>
         </div>
         </div>
         </div>

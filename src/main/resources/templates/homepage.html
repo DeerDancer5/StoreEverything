@@ -22,8 +22,9 @@
         <ul>
             <div class="text-center" >
                 <div sec:authorize="isAnonymous()">
-                <h1 class="my-5"> <a class="btn btn-info" th:href="@{/login}">Log in</a></h1>
-                <h1 class="my-5"> <a class="btn btn-info" th:href="@{/addUser}">Register</a></h1></div>
+                    <h1>Log in or register now!</h1>
+                    <h1 class="my-5"> <a class="btn btn-info" th:href="@{/login}">Log in</a></h1>
+                    <h1 class="my-5"> <a class="btn btn-info" th:href="@{/addUser}">Register</a></h1></div>
                 <h2>Features</h2>
                 <p>see more</p>
                 <a th:align="center" class="arrow down" aria-label="first link" href="#scroll-target"></a>
@@ -41,7 +42,7 @@
                     <h2>Your own notes storage</h2>
                     <p>You can see what's in there any time</p>
 
-                     <a class="btn btn-primary my-4" href="http://localhost:8080/notes"  th:align="right" >Show page</a>
+                    <a class="btn btn-primary my-4" href="http://localhost:8080/notes"  th:align="right" >Show page</a>
 
                 </div>
 
@@ -61,7 +62,7 @@
             </div>
             <div th:align="right" class="col-md-7 mt-5">
                 <div class="mt-4" th:align="center">
-                    <h2>Create a note of your own</h2>
+                    <h2>Create a note of your own!</h2>
                     <p>Want to store some information for later?</p>
 
                     <a class="btn btn-primary my-4" href="http://localhost:8080/notes/add?" th:maxlength="50" th:align="center" th:width="50">Show page</a>
@@ -73,9 +74,9 @@
         <div class="corner2 row bg-black text-white my-5 mt-5">
             <div class="col-md-7">
                 <div class="mt-4" th:align="center">
-                    <h2>See what other users shared with you</h2>
-                    <p>Easy access to notes that were shared for you</p>
-                    <a class="btn btn-primary my-4" th:align="center"  href="http://localhost:8080/adminPage" th:maxlength="50" th:width="50">Show page </a>
+                    <h2>Share your own information with others!</h2>
+                    <p>Simply just click the share button and send the link to your friend</p>
+                    <a class="btn btn-primary my-4" th:align="center"  href="http://localhost:8080/notes" th:maxlength="50" th:width="50">Show page </a>
 
                 </div>
             </div>

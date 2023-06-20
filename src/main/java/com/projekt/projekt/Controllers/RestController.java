@@ -34,6 +34,8 @@ public class RestController {
         CatList.add(new String("filmy"));
         CatList.add(new String("ksiazki"));
         CatList.add(new String("sztuka"));
+        CatList.add(new String("silka"));
+        CatList.add(new String("www"));
 
         return CatList;
     }

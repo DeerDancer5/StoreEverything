@@ -16,3 +16,7 @@ INSERT INTO note (user_id,title,category_id,content,www,date) VALUES (2,'note7',
 INSERT INTO note (user_id,title,category_id,content,date) VALUES (2,'note8',6,'Windows lepszy','2023-05-24')
 INSERT INTO note (user_id,title,category_id,content,date) VALUES (2,'note9',5,'Spotkanie z Brajankiem jutro','2023-05-24')
 INSERT INTO note (user_id,title,category_id,content,date) VALUES (2,'note10',1,'nowy rekord wyciskanie na klate 100kg','2023-05-24')
+INSERT INTO note (user_id,title,category_id,content,date) VALUES (1,'note1',6,'Top 5 Linux distributions: Numero 5 - Ubuntu','2022-11-22')
+INSERT INTO note (user_id,title,category_id,content,date) VALUES (1,'note2',2,'Muszę wymienić opony na letnie','2022-10-20')
+INSERT INTO note (user_id,title,category_id,content,date) VALUES (1,'note3',1,'(Poniedziałek - push Wtorek - pull Środa - legs) powtórz. Niedziela - rest','2022-01-12')
+
