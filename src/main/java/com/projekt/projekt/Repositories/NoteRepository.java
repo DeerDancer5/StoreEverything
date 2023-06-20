@@ -24,5 +24,7 @@ public interface NoteRepository extends JpaRepository<Note,Long> {
     @Query("SELECT n from Note n inner join n.category c WHERE n in :filtered AND n.date BETWEEN :start AND :end order by size(c.notes) ASC")
     Page<Note> sortNotesByCategoryPopularityAsc(@Param("filtered") List <Note> filtered,@Param("start") LocalDateTime start, @Param("end")LocalDateTime end
             ,Pageable pageable);
+    @Query("SELECT c FROM Note c WHERE  c.date BETWEEN :start AND :end ")
+    Page<Note> filterNotesByDate(@Param("start") LocalDateTime start, @Param("end")LocalDateTime end, Pageable pageable);
 
 }

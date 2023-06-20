@@ -65,7 +65,7 @@ public class NoteService {
         Pageable pageable = PageRequest.of(page,pageSize,d,sortBy);
         LocalDateTime start = startDate.atStartOfDay();
         LocalDateTime end = endDate.atTime(23,59,59);
-        Page<Note> notesPage = noteRepository.findAll(pageable);
+        Page<Note> notesPage = noteRepository.filterNotesByDate(start,end,pageable);
         String split[];
 
         if(category.length()>0) {

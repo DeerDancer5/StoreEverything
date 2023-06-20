@@ -32,7 +32,7 @@ public class SecurityConfig  {
                 .authenticated()
                 .and()
                 .userDetailsService(userService)
-                .formLogin(Customizer.withDefaults());
+                .formLogin().defaultSuccessUrl("/notes");
         return httpSecurity.build();
     }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>
@@ -9,7 +10,8 @@
 </head>
 
 <body>
-<div th:insert="~{navbar :: navbar}">  </div>
+<div  th:insert="~{navbar :: navbar}" sec:authorize="isAnonymous()">  </div>
+<div   sec:authorize="isAuthenticated()" th:insert="~{navbarLogged :: navbar}"> </div>
 
 <div class="container">
     <div class="bg-light jumbotron">
