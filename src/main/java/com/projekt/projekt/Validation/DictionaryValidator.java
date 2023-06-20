@@ -27,7 +27,7 @@ public class DictionaryValidator implements ConstraintValidator<Dictionary, Stri
                             String[].class);
             String[] slownik = response.getBody();
            result = (Arrays.asList(slownik).contains(categoryName));
-            System.out.println(categoryName);
+
 
         }
         else {

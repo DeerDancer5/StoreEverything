@@ -5,6 +5,7 @@ import com.projekt.projekt.Notes.NoteRequest;
 import com.projekt.projekt.Repositories.UserRepository;
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
+import com.projekt.projekt.Services.UserService;
 import com.projekt.projekt.Validation.User;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +36,7 @@ public class NoteController {
     @Autowired
     private CategoryService categoryService;
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
 
     @GetMapping()
@@ -88,20 +90,6 @@ public class NoteController {
         mav.addObject("sortBy","date");
         mav.addObject("sortDir","desc");
         mav.addObject("noteRequest",new NoteRequest());
-
-        System.out.println(auth.getName());
-
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        ResponseEntity<String[]> response =
-                restTemplate.getForEntity(
-                        "http://localhost:8080/category/categoryList",
-                        String[].class);
-        String[] slownik = response.getBody();
-        if(Arrays.asList(slownik).contains("filmy")){
-            System.out.println("tak");
-        }
 
 
 
@@ -167,13 +155,12 @@ public class NoteController {
         }
 
         Optional<Note> note = noteService.getById(id);
-
+        String shareLink = "localhost:8080/notes/shared/"+note.get().getId();
         boolean sharing=false;
         if(share.isPresent()){
             sharing=true;
 
-            String shareLink = "localhost:8080/notes/shared/"+note.get().getId();
-            mav.addObject("shareLink",shareLink);
+
         }
         List <Category> categoryList = categoryService.getAllCategories();
         mav.addObject("title",note.get().getTitle());
@@ -184,6 +171,7 @@ public class NoteController {
         mav.addObject("categoryList",categoryList);
         mav.addObject("note",note);
         mav.addObject("sharing",sharing);
+        mav.addObject("shareLink",shareLink);
 
 
         return mav;
@@ -232,7 +220,8 @@ public class NoteController {
         note.setCategoryName(note.getCategory().getName());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
-        Optional<User> user = userRepository.findByUsername(userName);
+        //ptional<User> user = userRepository.findByUsername(userName);
+        Optional<User> user = userService.findByName(userName);
         note.setUser(user.get());
         noteService.save(note);
         return mav;
@@ -286,7 +275,7 @@ public class NoteController {
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userName = auth.getName();
-        Optional<User> user = userRepository.findByUsername(userName);
+        Optional<User> user = userService.findByName(userName);
         note.setUser(user.get());
         note.setDate(LocalDateTime.now());
 
@@ -334,8 +323,28 @@ public class NoteController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/adminPage")
-    public String AdminPage()
-    {
+    public String AdminPage(Model model) {
+        User user = new User();
+        ArrayList <User> userList = userService.getAllUsers();
+        ArrayList <String> roles = userService.getUserNotes();
+        model.addAttribute("userList",userList);
+        model.addAttribute("userRoles",roles);
+        model.addAttribute("user",user);
+
+        return "adminPage";
+    }
+    @PostMapping("/adminPage")
+    public String saveChanges(User user,Model model) {
+
+        ArrayList <User> userList = userService.getAllUsers();
+        ArrayList <String> roles = userService.getUserNotes();
+        model.addAttribute("userList",userList);
+        model.addAttribute("userRoles",roles);
+
+        Optional<User> edited = userService.findById(user.getId());
+        edited.get().setRoles(user.getRoles());
+        userService.save(edited.get());
+
         return "adminPage";
     }
 }
