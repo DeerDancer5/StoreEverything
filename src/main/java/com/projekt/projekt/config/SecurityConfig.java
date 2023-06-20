@@ -26,7 +26,7 @@ public class SecurityConfig  {
         httpSecurity.csrf().disable()
                 .authorizeRequests()
                 .requestMatchers("/homepage","/notes/shared/**","/h2-console/**"
-                        ,"/notes/edit/**","/notes/add/**","/notes/**")
+                        ,"/notes/edit/**","/notes/add/**","/notes/**","/addUser/**","/")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

@@ -20,9 +20,10 @@
         <hr class="my-5">
         <p class="lead">
         <ul>
-            <div class="text-center">
+            <div class="text-center" >
+                <div sec:authorize="isAnonymous()">
                 <h1 class="my-5"> <a class="btn btn-info" th:href="@{/login}">Log in</a></h1>
-                <h1 class="my-5"> <a class="btn btn-info" th:href="@{/register}">Register</a></h1>
+                <h1 class="my-5"> <a class="btn btn-info" th:href="@{/register}">Register</a></h1></div>
                 <h2>Features</h2>
                 <p>see more</p>
                 <a th:align="center" class="arrow down" aria-label="first link" href="#scroll-target"></a>

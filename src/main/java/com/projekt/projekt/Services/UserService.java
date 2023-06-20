@@ -1,7 +1,9 @@
 package com.projekt.projekt.Services;
 
 
+import com.projekt.projekt.Notes.Category;
 import com.projekt.projekt.Repositories.UserRepository;
+import com.projekt.projekt.Validation.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,5 +20,8 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow();
+    }
+    public void save(User user){
+        userRepository.save(user);
     }
 }

@@ -2,6 +2,7 @@ package com.projekt.projekt.Controllers;
 
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
+import com.projekt.projekt.Services.UserService;
 import com.projekt.projekt.Validation.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class ValidationController implements WebMvcConfigurer {
     private NoteService noteService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/addUser")
     public String registerForm(Model model) {
@@ -36,6 +39,9 @@ public class ValidationController implements WebMvcConfigurer {
         if (bindingResult.hasErrors()) {
             return "register";
         }
+        user.setRoles("ROLE_USER");
+        userService.save(user);
+
         return "redirect:/login";
     }
 
@@ -55,6 +61,11 @@ public class ValidationController implements WebMvcConfigurer {
         }
         return "redirect:/notes";
     }
+    @GetMapping("/")
+    public String homepage() {
+        return "/homepage";
+    }
+
 
 
 
