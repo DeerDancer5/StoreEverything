@@ -15,21 +15,61 @@
         <div class="col-md-6 offset-md-3">
 
 
-            <form th:action="@{/register}" method="post" th:object="${user}">
+            <form th:action="@{/addUser}" method="post" th:object="${user}">
 
                 <h1 class="text-center">Register here</h1>
                 <div class="mb-3">
-                    <label for="InputName" class="form-label">Username</label>
+                    <label for="InputName" class="form-label">Name</label>
                     <input type="text"
-                           name="name"
+                           name="firstname"
                            class="form-control"
-                           th:value="${user.name}"
-                           th:classappend="${#fields.hasErrors('name')? 'is-invalid':''}"
+                           th:value="${user.firstname}"
+                           th:classappend="${#fields.hasErrors('firstname')? 'is-invalid':''}"
                            id="InputName"/>
 
-                    <div th:each="e : ${#fields.errors('name')}" th:text="${e}" class="invalid-feedback">
+                    <div th:each="e : ${#fields.errors('firstname')}" th:text="${e}" class="invalid-feedback"></div>
 
-                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputSurname" class="form-label">Surname</label>
+                    <input type="text"
+                           name="surname"
+                           class="form-control"
+                           th:value="${user.surname}"
+                           th:classappend="${#fields.hasErrors('surname')? 'is-invalid':''}"
+                           id="InputSurname"/>
+
+                    <div th:each="e : ${#fields.errors('surname')}" th:text="${e}" class="invalid-feedback"></div>
+
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputAge" class="form-label">Age</label>
+                    <input type="text"
+                           name="age"
+                           class="form-control"
+                           th:value="${user.age}"
+                           th:classappend="${#fields.hasErrors('age')? 'is-invalid':''}"
+                           id="InputAge"/>
+
+                    <div th:each="e : ${#fields.errors('age')}" th:text="${e}" class="invalid-feedback"></div>
+
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputUserName" class="form-label">Username</label>
+                    <input type="text"
+                           name="username"
+                           class="form-control"
+                           th:value="${user.username}"
+                           th:classappend="${#fields.hasErrors('username')? 'is-invalid':''}"
+                           id="InputUserName"/>
+
+                    <div th:each="e : ${#fields.errors('username')}" th:text="${e}" class="invalid-feedback"></div>
 
 
                 </div>

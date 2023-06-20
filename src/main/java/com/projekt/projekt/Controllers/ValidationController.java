@@ -23,21 +23,19 @@ public class ValidationController implements WebMvcConfigurer {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/register")
+    @GetMapping("/addUser")
     public String registerForm(Model model) {
-        model.addAttribute("person", new User());
+        model.addAttribute("user", new User());
         return "register";
     }
 
-    @PostMapping("/register")
-    public String checkPersonInfo(@Valid @ModelAttribute("person") User user, BindingResult bindingResult) {
+    @PostMapping("/addUser")
+    public String checkPersonInfo(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
 
 
         if (bindingResult.hasErrors()) {
-            System.out.printf(String.valueOf(bindingResult));
             return "register";
         }
-        System.out.println(user);
         return "redirect:/login";
     }
 
@@ -53,10 +51,8 @@ public class ValidationController implements WebMvcConfigurer {
 
 
         if (bindingResult.hasErrors()) {
-            System.out.printf(String.valueOf(bindingResult));
             return "login";
         }
-        System.out.println(user);
         return "redirect:/notes";
     }
 
