@@ -4,6 +4,7 @@ import com.projekt.projekt.Notes.Note;
 import com.projekt.projekt.Notes.NoteRequest;
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
+import com.projekt.projekt.Validation.User;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -310,7 +311,6 @@ public class NoteController {
     @GetMapping("/adminPage")
     public String AdminPage()
     {
-
         return "adminPage";
     }
 }

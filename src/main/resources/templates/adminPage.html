@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:id="http://www.w3.org/1999/xhtml"
+      xmlns:form="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -17,6 +18,8 @@
 <div class="container">
   <div class="row mt-5">
     <div class="col-md-6 offset-md-3">
+      <h1 th:align="center">Administration</h1>
+
 
       <table class="table table-striped ">
         <thead class="table-dark">
@@ -27,16 +30,26 @@
         <th scope="col">Edit Role</th>
 
 
-        <tr th:each="user: ${users}">
+        <tr th:each="user: ${userList}">
           <td th:text="${user.getId()}"/>
           <td th:text="${user.getEmail()}"/>
           <td th:text="${user.getRole()}"/>
           <td>
-            <form th:action="@{|/admin|}"   method="get">
+            <form th:action="@{|/adminPage|}"   method="get">
 
-              <button  type="submit">
-                <i>Edit</i>
-              </button>
+              <div>
+                <form:select path="userRole">
+                  <form:option value="ROLE_USER" label="Role-User"/>
+                  <form:option value="ROLE_ADMIN" label="Role-Admin"/>
+                  <form:option value="ROLE_LIMITEDUSER" label="Role-LimitedUser"/>
+                </form:select>
+              </div>
+
+              <div class="Editsavebtn col-md-6" >
+                <button class="btn btn-success mt-2 my-4"  type="submit">
+                  Save changes
+                </button>
+              </div>
             </form>
           </td>
         </tr>

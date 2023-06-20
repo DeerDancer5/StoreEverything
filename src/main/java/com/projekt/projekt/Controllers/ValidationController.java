@@ -42,12 +42,12 @@ public class ValidationController implements WebMvcConfigurer {
 
     @GetMapping("/login")
     public String loginForm(Model model) {
-        model.addAttribute("person", new User());
+        model.addAttribute("user", new User());
         return "login";
     }
 
     @PostMapping("/login")
-    public String checkPerson(@Valid @ModelAttribute("person") User user, BindingResult bindingResult) {
+    public String checkPerson(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
 
 
         if (bindingResult.hasErrors()) {

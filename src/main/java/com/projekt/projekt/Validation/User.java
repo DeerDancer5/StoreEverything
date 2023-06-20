@@ -2,15 +2,13 @@ package com.projekt.projekt.Validation;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.service.annotation.PatchExchange;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,10 +26,12 @@ public class User implements UserDetails {
 
     @Size(min=3, max=20, message = "Name must be between 3 and 20 characters")
     @NotBlank(message = "Firstname can't be empty")
+    @Pattern(regexp = "[A-Z]\\w*", message = "First letter must be uppercase")
     private String firstname;
 
     @Size(min=3, max=50, message = "Name must be between 3 and 50 characters")
     @NotBlank(message = "Surname can't be empty")
+    @Pattern(regexp = "[A-Z]\\w*", message = "First letter must be uppercase")
     private String surname;
 
     @NotBlank(message = "password is required")
@@ -41,6 +41,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Age is required")
     @Pattern(regexp = "[0-9]+", message = "Must be a number")
     @Min(value = 18, message = "Must be at least 18 years old")
+    @Max(value = 130, message = "Must be a true number")
     private String age;
     private String roles;
     @Id
@@ -49,6 +50,10 @@ public class User implements UserDetails {
 
     public User(){
 
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public User(String firstname, String surname, String username, String email, String password, String roles, String age) {
@@ -61,6 +66,33 @@ public class User implements UserDetails {
         this.age = age;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAge() {
+        return age;
+    }
     public void setId(Long id) {
         this.id = id;
     }
