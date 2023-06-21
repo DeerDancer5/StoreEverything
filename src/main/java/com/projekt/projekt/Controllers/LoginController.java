@@ -8,13 +8,13 @@ public class LoginController {
 
     @GetMapping("/homepage")
     public String Homepage() {
-        return "homepage.html";
+        return "homepage";
     }
 
     @GetMapping("/navbar")
     public String Navbar()
     {
-        return "navbar.html";
+        return "navbar";
     }
 
 

@@ -35,19 +35,20 @@
           <td th:text="${user.getUsername()}"/>
           <td th:text="${user.getEmail()}"/>
           <td th:text="${user.getRoles()}"/>
-          <td>
-            <form th:action="@{|/notes/adminPage|}"   th:object="${user}" method="post">
 
-              <select name="roles" >
+            <form th:action="@{|/notes/adminPage|}"   th:object="${user}" method="post">
+            <td>
+              <select name="roles" aria-label="Select role" >
                 <option th:each="role : ${userRoles}"
                         th:value="${role}"
                         th:selected="(${user.getRoles()} == ${role})"
                         th:text="${role}">
                 </option>
               </select>
+            </td>
               <td>
-              <div class="Editsavebtn col-md-6" >
-                <button class="btn btn-success mt-2 my-4"  type="submit">
+              <div class="Editsavebtn" >
+                <button class="btn btn-success "  type="submit">
                   Save changes
                 </button>
               </div>
