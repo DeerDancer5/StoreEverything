@@ -3,7 +3,7 @@ package com.projekt.projekt.Controllers;
 import com.projekt.projekt.Services.CategoryService;
 import com.projekt.projekt.Services.NoteService;
 import com.projekt.projekt.Services.UserService;
-import com.projekt.projekt.Validation.User;
+import com.projekt.projekt.Users.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Optional;
 
 
 @Controller
@@ -66,6 +64,17 @@ public class ValidationController implements WebMvcConfigurer {
     @GetMapping("/")
     public String homepage() {
         return "/homepage";
+    }
+
+    @GetMapping("/homepage")
+    public String Homepage() {
+        return "homepage";
+    }
+
+    @GetMapping("/navbar")
+    public String Navbar()
+    {
+        return "navbar";
     }
 
 

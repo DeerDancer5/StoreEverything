@@ -2,7 +2,7 @@ package com.projekt.projekt.Services;
 
 
 import com.projekt.projekt.Repositories.UserRepository;
-import com.projekt.projekt.Validation.User;
+import com.projekt.projekt.Users.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

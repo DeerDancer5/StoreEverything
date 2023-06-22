@@ -1,4 +1,4 @@
-package com.projekt.projekt.Validation;
+package com.projekt.projekt.Users;
 import com.projekt.projekt.Notes.Note;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
