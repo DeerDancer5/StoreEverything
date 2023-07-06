@@ -102,7 +102,7 @@
                 </form>
             <div class="col">
                     <span>
-                        <div th:align="right">Page
+                        <div  th:if="${NumberOfPages>-1}" th:align="right">Page
                         <span class="Strona" th:text="${page+1}"></span>
                         of
                         <span class="Ilosc" th:text="${NumberOfPages+1}"></span>
