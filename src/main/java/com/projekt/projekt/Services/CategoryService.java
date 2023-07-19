@@ -22,8 +22,8 @@ public class CategoryService {
     public Optional<Category> getByName(String name) {
         return (categoryRepository.findByName(name));
     }
-    public List<Category> getAllCategories(){
-        return categoryRepository.findAll();
+    public List<Category> getAllCategories(String username){
+        return categoryRepository.getUsersCategories(username);
     }
     public void save(Category category){
         categoryRepository.save(category);

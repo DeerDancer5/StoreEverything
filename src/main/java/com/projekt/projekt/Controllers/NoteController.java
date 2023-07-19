@@ -68,7 +68,7 @@ public class NoteController {
         Page <Note> notes = noteService.getNotesPage(0,10,
                 "date","desc", "",
                 startDate,endDate,userName);
-        List <Category> categoryList = categoryService.getAllCategories();
+        List <Category> categoryList = categoryService.getAllCategories(userName);
         Collections.sort(categoryList);
         List<String> sortOptions = noteService.getSortOptions();
         List<Integer> sizeOptions = noteService.getSizeOptions();
@@ -114,7 +114,7 @@ public class NoteController {
 
         Page<Note> notes = noteService.getNotesPage(Integer.parseInt(noteRequest.getPage()), Integer.parseInt(noteRequest.getPageSize()),
                 noteRequest.getSortBy(), noteRequest.getSortDir(), category, noteRequest.getStartDate(), noteRequest.getEndDate(),userName);
-        List<Category> categoryList = categoryService.getAllCategories();
+        List<Category> categoryList = categoryService.getAllCategories(userName);
         Collections.sort(categoryList);
         List<String> sortOptions = noteService.getSortOptions();
         List<Integer> sizeOptions = noteService.getSizeOptions();
@@ -150,6 +150,8 @@ public class NoteController {
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("edit");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
         if(newCategory.isPresent()){
             mav.setViewName("editWithNewCategory");
         }
@@ -162,7 +164,7 @@ public class NoteController {
 
 
         }
-        List <Category> categoryList = categoryService.getAllCategories();
+        List <Category> categoryList = categoryService.getAllCategories(userName);
         mav.addObject("title",note.get().getTitle());
         mav.addObject("noteCategory",note.get().getCategory().getName());
         mav.addObject("date",note.get().dateToString());
@@ -180,6 +182,8 @@ public class NoteController {
     @PostMapping("/edit")
     public ModelAndView saveEdited(@Valid Note edited, BindingResult bindingResult){
         ModelAndView mav = new ModelAndView("redirect:/notes");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
         if (bindingResult.hasErrors()) {
             System.out.println("blad");
             ModelAndView tmp = new ModelAndView();
@@ -188,7 +192,7 @@ public class NoteController {
                 tmp.setViewName("editWithNewCategory");
             }
 
-            tmp.addObject("categoryList", categoryService.getAllCategories());
+            tmp.addObject("categoryList", categoryService.getAllCategories(userName));
             Optional<Note> note = noteService.getById(edited.getId());
 
             tmp.addObject("title", bindingResult.getFieldValue("title"));
@@ -218,8 +222,7 @@ public class NoteController {
         }
 
         note.setCategoryName(note.getCategory().getName());
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userName = auth.getName();
+
         //ptional<User> user = userRepository.findByUsername(userName);
         Optional<User> user = userService.findByName(userName);
         note.setUser(user.get());
@@ -229,13 +232,15 @@ public class NoteController {
     @GetMapping("/add")
     public ModelAndView addNote(@RequestParam Optional <String> newCategory){
         ModelAndView mav = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName();
         if(newCategory.isPresent()){
             mav.setViewName("addWithNewCategory");
         }
         else {
             mav.setViewName("add");
         }
-        List <Category> categoryList = categoryService.getAllCategories();
+        List <Category> categoryList = categoryService.getAllCategories(userName);
 
         Note note = new Note();
         mav.addObject("note",note);
@@ -253,7 +258,9 @@ public class NoteController {
         if (bindingResult.hasErrors()) {
 
                  ModelAndView tmp = new ModelAndView();
-                 tmp.addObject("categoryList", categoryService.getAllCategories());
+                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                 String userName = auth.getName();
+                 tmp.addObject("categoryList", categoryService.getAllCategories(userName));
                  tmp.addObject("noteCategory", note.getCategoryName());
                  if(categoryService.getByName((String) bindingResult.getRawFieldValue("categoryName")).isPresent()){
                      tmp.setViewName("add");
