@@ -24,7 +24,7 @@
 
               <label for="CategoryAdd">Category</label>
               <div>
-                <select name="categoryName" form="saveForm" id="CategoryAdd">
+                <select name="categoryName" form="saveForm" id="CategoryAdd"  th:if="${categoryList.size()>0}">
                   <option th:each="category : ${categoryList}"
                           th:value="${category.getName()}"
                           th:selected="(${category.getName()} == ${noteCategory})"

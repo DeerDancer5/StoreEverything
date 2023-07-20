@@ -24,9 +24,9 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-md-2"><hr>
-            <div th:align="left">
-                <div class="row my-2">
+        <div class="col-md-2" ><hr>
+            <div th:align="left" >
+                <div class="row my-2" th:if="${NumberOfPages>-1}">
                     Category:
                 </div>
                 <form th:action="@{/notes}" th:object="${noteRequest}" th:field="selectedCategory" method="get">
